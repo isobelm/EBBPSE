@@ -90,24 +90,25 @@ function Player:setObjectMap( objectMap )
 end
 
 function Player:update(dt)
-	if love.keyboard.isDown('right') or love.keyboard.isDown('left') or love.keyboard.isDown('up') or love.keyboard.isDown('down') then
+	if love.keyboard.isDown('right') or love.keyboard.isDown('left') or love.keyboard.isDown('up') or love.keyboard.isDown('down') or
+			love.keyboard.isDown('w') or love.keyboard.isDown('a') or love.keyboard.isDown('s') or love.keyboard.isDown('d') then
 		self.body.moving = true
-		if love.keyboard.isDown('right') then
+		if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
 			self:setDirection("r")
 			if self:canMove("right") then
 				self:setX(self:getX() + self:getSpeed())
 			end
-		elseif love.keyboard.isDown('left') then
+		elseif love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 			self:setDirection("l")
 			if self:canMove("left") then
 				self:setX(self:getX() - self:getSpeed())
 			end
-		elseif love.keyboard.isDown('up') then  
+		elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') then  
 			self:setDirection("u")
 			if self:canMove("up") then
 				self:setY(self:getY() - self:getSpeed())
 			end
-		elseif love.keyboard.isDown('down') then
+		elseif love.keyboard.isDown('down') or love.keyboard.isDown('s') then
 			self:setDirection("d")
 			if self:canMove("down") then
 				self:setY(self:getY() + self:getSpeed())

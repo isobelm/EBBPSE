@@ -59,6 +59,15 @@ function setDebug(message)
 end
 
 function love.keyreleased( key, scancode, isrepeat )
+	if (key == "w") then
+		key = "up"
+	elseif (key == "a") then
+		key = "left"
+	elseif (key == "s") then
+		key = "down"
+	elseif (key == "d") then
+		key = "right"
+	end
 
 	newScreen, interaction = currentScreen:keyreleased( key , setDebug)
 	switchScreen(newScreen, interaction)
