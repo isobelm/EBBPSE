@@ -9,10 +9,10 @@ TownGate.__index = TownGate
 
 
 function TownGate:initTownGate()
-	self.name = "TownGate"
+	self.name = "Levels/TownGate"
 	self.portals = {}
 	self.portals.red = nil
-	self.portals.green = "Marsh_1"
+	self.portals.green = "Levels/Marsh_1"
 	self.player.portals = self.portals
 end
 
