@@ -37,19 +37,19 @@ function StaticObject:getY()
 	return self.y
 end
 
+function StaticObject:getBaseCentreY()
+	return self.y + self.baseCenterY
+end
+
+function StaticObject:getBottomY()
+	return self.y + self.baseCenterY
+end
+
 function StaticObject.new(path)
   local self = setmetatable({}, StaticObject)
   self:init(path)
 
   return self
-end
-
-function StaticObject:getBaseCentreY()
-	return self.baseCenterY
-end
-
-function StaticObject:getBottomY()
-	return self.y + self.baseCenterY
 end
 
 return StaticObject

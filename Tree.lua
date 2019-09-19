@@ -11,6 +11,28 @@ function Tree:init(left)
 	else
 		self.image = love.graphics.newImage('Resources/Sprites/Tree/tree_right.png')
 	end
+	self.width = self.image:getWidth()
+	self.height = self.image:getHeight()
+	self.baseCentreX = self.width / 2
+	self.baseOffset = (self.height / 3) * 2
+	self.baseCentreY = ((self.height - self.baseOffset) / 2) + self.baseOffset
+end
+
+function Tree:setBaseOffest(offset)
+	self.baseOffset = offset
+	self.baseCenterY = ((self.height - self.baseOffset) / 2) + self.baseOffset
+end
+
+function Tree:getBaseOffset()
+	return self.baseOffset
+end
+
+function Tree:getBaseCentreY()
+	return self.y + self.baseCentreY
+end
+
+function Tree:getBaseCentreX()
+	return self.x + self.baseCentreX
 end
 
 function Tree:draw()

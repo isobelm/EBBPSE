@@ -14,6 +14,7 @@ function Player:init(setDebug)
 	self:setY(150)
 	self.magic = 100
 	self.setDebug = setDebug
+	self.timer = 0
 end
 
 function Player:draw()
@@ -30,7 +31,13 @@ function Player:canMove(direction)
 		for j = self:getY() + self:getBaseOffset(), self:getY() + self:getHeight() do
 			if j >= 0 and j < love.graphics.getHeight() then
 				local r, g, b, a = self.objectMap:getPixel(self:getX() + self:getWidth() + self:getSpeed(), j)
-				if r == 0x0 and g == 0x0 and b == 0x0 then
+				if r == 1 and g == 0 and b == 0 then
+					return self.portals.red
+				elseif g == 1 and r == 0 and b == 0 then
+					return self.portals.green
+				elseif b == 1 and g == 0 and r == 0 then
+					return self.portals.blue
+				elseif r == 0 and g == 0 and b == 0 then
 					return false
 				end
 			end
@@ -45,7 +52,13 @@ function Player:canMove(direction)
 		for j = self:getY() + self:getBaseOffset(), self:getY() + self:getHeight() do
 			if j >= 0 and j < love.graphics.getHeight() then
 				local r, g, b, a = self.objectMap:getPixel(self:getX() - self:getSpeed(), j)
-				if r == 0x0 and g == 0x0 and b == 0x0 then
+				if r == 1 and g == 0 and b == 0 then
+					return self.portals.red
+				elseif g == 1 and r == 0 and b == 0 then
+					return self.portals.green
+				elseif b == 1 and g == 0 and r == 0 then
+					return self.portals.blue
+				elseif r == 0x0 and g == 0x0 and b == 0x0 then
 					return false
 				end
 			end
@@ -60,7 +73,13 @@ function Player:canMove(direction)
 		for i = self:getX(), self:getX() + self:getWidth() do
 			if i >= 0 and i < love.graphics.getWidth() then
 				local r, g, b, a = self.objectMap:getPixel(i, self:getY() + self:getBaseOffset() - self:getSpeed())
-				if r == 0x0 and g == 0x0 and b == 0x0 then
+				if r == 1 and g == 0 and b == 0 then
+					return self.portals.red
+				elseif g == 1 and r == 0 and b == 0 then
+					return self.portals.green
+				elseif b == 1 and g == 0 and r == 0 then
+					return self.portals.blue
+				elseif r == 0x0 and g == 0x0 and b == 0x0 then
 					return false
 				end
 			end
@@ -75,7 +94,13 @@ function Player:canMove(direction)
 		for i = self:getX(), self:getX() + self:getWidth() do
 			if i >= 0 and i < love.graphics.getWidth() then
 				local r, g, b, a = self.objectMap:getPixel(i, self:getY() + self:getSpeed() + self:getHeight())
-				if r == 0x0 and g == 0x0 and b == 0x0 then
+				if r == 1 and g == 0 and b == 0 then
+					return self.portals.red
+				elseif g == 1 and r == 0 and b == 0 then
+					return self.portals.green
+				elseif b == 1 and g == 0 and r == 0 then
+					return self.portals.blue
+				elseif r == 0x0 and g == 0x0 and b == 0x0 then
 					return false
 				end
 			end
@@ -95,23 +120,38 @@ function Player:update(dt)
 		self.body.moving = true
 		if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
 			self:setDirection("r")
-			if self:canMove("right") then
+			local canMove = self:canMove("right")
+			if canMove == true then
 				self:setX(self:getX() + self:getSpeed())
+			elseif canMove ~= false then
+				return canMove
 			end
 		elseif love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 			self:setDirection("l")
-			if self:canMove("left") then
+			local canMove = self:canMove("left")
+			if (canMove ~= true) then
+				self.setDebug(canMove)
+			end
+			if canMove == true then
 				self:setX(self:getX() - self:getSpeed())
+			elseif canMove ~= false then
+				return canMove
 			end
 		elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') then  
 			self:setDirection("u")
-			if self:canMove("up") then
+			local canMove = self:canMove("up")
+			if canMove == true then
 				self:setY(self:getY() - self:getSpeed())
+			elseif canMove ~= false then
+				return canMove
 			end
 		elseif love.keyboard.isDown('down') or love.keyboard.isDown('s') then
 			self:setDirection("d")
-			if self:canMove("down") then
+			local canMove = self:canMove("down")
+			if canMove == true then
 				self:setY(self:getY() + self:getSpeed())
+			elseif canMove ~= false then
+				return canMove
 			end
 
 		end
@@ -124,13 +164,10 @@ function Player:update(dt)
 		end
 	end
 
-	-- if self.magic == 0 then
-	-- 	return "GameOver"
-	-- end
 	self.timer = self.timer + 1
 end
 
-function Player:keyreleased( key, interactables , setDebug)
+function Player:keyreleased( key, interactables)
 	self.body.moving = true
 
 	if (key == "space") then
@@ -143,7 +180,6 @@ function Player:keyreleased( key, interactables , setDebug)
 			local object = interactables[i]
 			local distance = math.sqrt((object:getBaseCentreY() - self:getBaseCentreY()) * (object:getBaseCentreY() - self:getBaseCentreY()) + (object:getBaseCentreX() - self:getBaseCentreX()) * (object:getBaseCentreX() - self:getBaseCentreX()))
 			if distance <= INTERACTIVE_DIST then
-				setDebug("close enough")
 				if (closest == nil or distance < closestDist) then
 					closest = object
 					closestDist = distance

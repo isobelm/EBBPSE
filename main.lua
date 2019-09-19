@@ -2,23 +2,22 @@ io.stdout:setvbuf('no')
 function love.conf(t)
 	t.console = true
 end
+
 --Main
+require "conf"
 local startMenu = require "StartMenu"
 local Player = require "Player"
--- local Timer = require "Timer" 
 local pauseForDebug = false
 local debugMessage = nil
 local debugTime = 360
-local debugMode = false
+local debugMode = true
 
 local screens = {}
 local currentScreen = nil
--- local timer = nil
 
 function init()
 	player = Player.new(setDebug)
 	startMenu:init(timer)
-	-- timer = timer.new()
 end
 
 function love.load()
@@ -43,11 +42,15 @@ function love.draw()
 	else
 		currentScreen:draw()
 	end
+	love.graphics.print(tostring(love.timer.getFPS( )), 280, 4)
 end
 
 function love.update(dt)
     newScreen = currentScreen:update(dt)
     switchScreen(newScreen)
+    if player == nil then
+		setDebug("Sure, that makes sense")
+	end
 end
 
 function setDebug(message)
@@ -74,6 +77,7 @@ function love.keyreleased( key, scancode, isrepeat )
 end
 
 function switchScreen(screen, interaction)
+	-- local player = _G.player
 	if screen == nil then
 	elseif screens[screen] then
 		currentScreen = screens[screen]
@@ -82,12 +86,9 @@ function switchScreen(screen, interaction)
 		if screen == "interaction" then
 			currentScreen = interaction
 		else
-			screens[screen] = require (screen)
-			currentScreen = screens[screen]
-			currentScreen:init(timer)
-			if currentScreen["player"] ~= nil then
-				currentScreen:player(player)
-			end
+			local screentype = require(screen)
+			currentScreen = screentype.new(player)
+			screens[screen] = currentScreen
 		end
 	end
 end
