@@ -11,12 +11,17 @@ local pauseForDebug = false
 local debugMessage = nil
 local debugTime = 360
 local debugMode = true
+local testing = false
 
 local screens = {}
 local currentScreen = nil
+local interaction = nil
+local interacting = false
 
 function init()
 	player = Player.new(setDebug)
+	player:setX(188)
+	player:setY(100)
 	startMenu:init(timer)
 end
 
@@ -25,9 +30,21 @@ function love.load()
 	love.window.setTitle( "Extreme Body Builder Pro Super Edition" )
 	love.graphics.setDefaultFilter("nearest", "nearest", 1)
 	love.graphics.setNewFont('Resources/Fonts/Andale Mono.ttf', 24)
-	screens["StartMenu"] = startMenu
-	currentScreen = screens["StartMenu"]
-	init()
+	if (testing) then 
+		testingInit()
+	else
+		currentScreen = startMenu
+		init()
+	end
+end
+
+function testingInit()
+	player = Player.new(setDebug)
+	player:setBodyType("SpiderQueen")
+	player:setX(188)
+	player:setY(100)
+	local screentype = require("Levels/Marsh_1")
+	currentScreen = screentype.new(player)
 end
 
 function love.draw()
@@ -40,13 +57,22 @@ function love.draw()
 			debugTime = 360
 		end
 	else
-		currentScreen:draw()
+		if (interacting) then
+			interaction:draw()
+		else
+			currentScreen:draw()
+		end
 	end
 	love.graphics.print(tostring(love.timer.getFPS( )), 280, 4)
 end
 
 function love.update(dt)
-    newScreen = currentScreen:update(dt)
+	local newScreen = nil
+	if (interacting) then
+		newScreen = interaction:update(dt)
+	else
+		newScreen = currentScreen:update(dt)
+	end
     switchScreen(newScreen)
     if player == nil then
 		setDebug("Sure, that makes sense")
@@ -72,23 +98,25 @@ function love.keyreleased( key, scancode, isrepeat )
 		key = "right"
 	end
 
-	newScreen, interaction = currentScreen:keyreleased( key , setDebug)
-	switchScreen(newScreen, interaction)
+	local newScreen, interactionLocal = nil
+	if (interacting) then
+		newScreen, interaction = interaction:keyreleased( key , setDebug)
+	else
+		newScreen, interaction = currentScreen:keyreleased( key , setDebug)
+	end
+	switchScreen(newScreen, interactionLocal)
 end
 
-function switchScreen(screen, interaction)
-	-- local player = _G.player
+function switchScreen(screen, interactionLocal)
 	if screen == nil then
-	elseif screens[screen] then
-		currentScreen = screens[screen]
-		currentScreen:reset()
+	elseif screen == "interaction" then
+		interaction = interactionLocal
+		setDebug(interaction.objectName)
+		interacting = true
+	elseif screen == "return" then
+		interacting = false
 	else
-		if screen == "interaction" then
-			currentScreen = interaction
-		else
-			local screentype = require(screen)
-			currentScreen = screentype.new(player)
-			screens[screen] = currentScreen
-		end
+		local screentype = require(screen)
+		currentScreen = screentype.new(player)
 	end
 end

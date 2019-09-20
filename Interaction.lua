@@ -57,7 +57,7 @@ function Interaction:keyreleased( key )
 		end
 	elseif key == "space" then
 		self.object:interactionOptions(self.selected)
-		return self.screen
+		return "return"
 	end
 end
 

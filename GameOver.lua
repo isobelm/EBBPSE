@@ -16,7 +16,7 @@ function this:update(dt)
 end
 
 function this:keyreleased( key )
-	return "TownGate"
+	return "Levels/TownGate"
 end
 
 return this

@@ -68,12 +68,11 @@ function GameScreen:update(dt, setDebug)
 end
 
 function GameScreen:update(dt)
+	return self.player:update()
 end
 
 function GameScreen:addPlayer(player)
 	self.player = player
-	self.player:setX(188)
-	self.player:setY(100)
 	self.player:setObjectMap(self.objectMap)
 
 	self:addObject(self.player)
