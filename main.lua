@@ -10,7 +10,7 @@ local Player = require "Player"
 local pauseForDebug = false
 local debugMessage = nil
 local debugTime = 360
-local debugMode = true
+local debugMode = false
 local testing = false
 
 local screens = {}
@@ -49,7 +49,7 @@ end
 
 function love.draw()
 	if (pauseForDebug) then
-		love.graphics.printf(debugMessage, 0, 250, 800, 'center')
+		-- love.graphics.printf(debugMessage, 0, 250, 800, 'center')
 		debugTime = debugTime - 1
 		if (debugTime == 0) then
 			pauseForDebug = false
@@ -100,9 +100,9 @@ function love.keyreleased( key, scancode, isrepeat )
 
 	local newScreen, interactionLocal = nil
 	if (interacting) then
-		newScreen, interaction = interaction:keyreleased( key , setDebug)
+		newScreen, interactionLocal = interaction:keyreleased( key , setDebug)
 	else
-		newScreen, interaction = currentScreen:keyreleased( key , setDebug)
+		newScreen, interactionLocal = currentScreen:keyreleased( key , setDebug)
 	end
 	switchScreen(newScreen, interactionLocal)
 end
@@ -114,6 +114,7 @@ function switchScreen(screen, interactionLocal)
 		setDebug(interaction.objectName)
 		interacting = true
 	elseif screen == "return" then
+		currentScreen:reset()
 		interacting = false
 	else
 		local screentype = require(screen)

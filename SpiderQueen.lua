@@ -8,7 +8,7 @@ local SpiderQueen = {}
 SpiderQueen.__index = SpiderQueen
 
 
-function SpiderQueen:initHead()
+function SpiderQueen:initSpiderQueen()
 	self.spiderCount = 1
 	self.speed = 0.1
 	self.magicLossSpeed = 700
@@ -18,7 +18,7 @@ end
 function SpiderQueen.new()
  	local self = setmetatable({}, SpiderQueen)
  	self:init("Resources/Player/Spider_1")
- 	self:initHead();
+ 	self:initSpiderQueen();
 
  	return self
 end

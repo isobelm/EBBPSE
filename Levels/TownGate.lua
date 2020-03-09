@@ -47,6 +47,13 @@ function TownGate:update(dt)
 	return self.player:update()
 end
 
+function TownGate:draw()
+	GameScreen.draw(self)
+	if (self.spider ~= nil) then
+	self.spider:draw()
+	end
+end
+
 function TownGate:createSpider()
 	self.spider = Spider.new(self.player, self.name)
 	self.spider:setX(400)

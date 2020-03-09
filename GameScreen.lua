@@ -27,17 +27,19 @@ function GameScreen:initObjects()
 end
 
 function GameScreen:draw()
-	self.sort(self.objects, function (a, b)
-			return a:getBaseCentreY() > b:getBaseCentreY()
-		end
-	)
+	-- self.sort(self.objects, function (a, b)
+	-- 		return a:getBaseCentreY() > b:getBaseCentreY()
+	-- 	end
+	-- )
 	love.graphics.scale( 2, 2 )
 
 	love.graphics.draw(self.background, 0, 0)
 
-	for i = 1, table.getn(self.objects) do
-		self.objects[i]:draw()
-	end
+	-- for i = 1, table.getn(self.objects) do
+	-- 	self.objects[i]:draw()
+	-- end
+	self.player:draw()
+
 
 	love.graphics.draw(GameScreen.magicSymbol, 2, 2)
 	love.graphics.printf("" .. self.player.magic, 10, 4, 400, 'left')

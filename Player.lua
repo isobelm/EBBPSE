@@ -171,11 +171,9 @@ function Player:keyreleased( key, interactables)
 	self.body.moving = true
 
 	if (key == "space") then
-		print ("space Released")
 		local closest = nil
 		local closestDist = 0;
 		local length = table.getn(interactables)
-		print (length)
 		for i=1,length do
 			local object = interactables[i]
 			local distance = math.sqrt((object:getBaseCentreY() - self:getBaseCentreY()) * (object:getBaseCentreY() - self:getBaseCentreY()) + (object:getBaseCentreX() - self:getBaseCentreX()) * (object:getBaseCentreX() - self:getBaseCentreX()))
@@ -188,7 +186,7 @@ function Player:keyreleased( key, interactables)
 		end
 
 		if (closest ~= nil) then
-		 return "interaction", closest:getInteraction()
+			return "interaction", closest:getInteraction()
 		end
 	end
 end
