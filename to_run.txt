@@ -1,1 +1,0 @@
- /Applications/love.app/Contents/MacOS/love /Users/isobelmahon/Documents/Extreme_Body_Builder_Pro_Super_Edition/main.lua
