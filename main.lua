@@ -29,7 +29,8 @@ function love.load()
 	love.graphics.setBlendMode("alpha", "premultiplied")
 	love.window.setTitle( "Extreme Body Builder Pro Super Edition" )
 	love.graphics.setDefaultFilter("nearest", "nearest", 1)
-	love.graphics.setNewFont('Resources/Fonts/Andale Mono.ttf', 24)
+	font = love.graphics.newImageFont('Resources/Fonts/alphabet_2.png', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#.!?: ", 2)
+	love.setFont(font)
 	if (testing) then 
 		testingInit()
 	else
