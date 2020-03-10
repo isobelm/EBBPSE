@@ -28,6 +28,7 @@ end
 
 function love.load()
 	love.window.setMode(800, 604, {resizable=true, vsync=false, minwidth=400, minheight=300, msaa=0, highdpi=true})
+	love.graphics.setBlendMode("alpha", "premultiplied")
 	love.window.setTitle( "Extreme Body Builder Pro Super Edition" )
 	love.graphics.setDefaultFilter("nearest", "nearest", 1)
 	love.graphics.setNewFont('Resources/Fonts/Andale Mono.ttf', 24)
@@ -39,7 +40,7 @@ function love.load()
 	end
 
 	canvas = love.graphics.newCanvas(800, 604)
-	love.graphics.setBlendMode("alpha", "premultiplied")
+	
 
  
 end

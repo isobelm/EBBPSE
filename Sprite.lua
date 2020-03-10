@@ -35,6 +35,7 @@ function Sprite:update()
 	self.animations[self.direction]:update()
 	if self.animations[self.direction].dirty == true then
 		self.dirty = true
+		-- print("dirty")
 	end
 end
 
@@ -72,6 +73,10 @@ function Sprite:getBottomY()
 	return self.y + self.baseCentreY
 end
 
+function Sprite:setMoving(moving)
+	self.moving = moving
+	self.animations[self.direction].moving = moving
+end
 
 --Constructor
 function Sprite.new(folder)

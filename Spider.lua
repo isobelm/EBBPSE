@@ -49,7 +49,6 @@ function Spider:interactionOptions(selected)
 end
 
 function Spider:draw()
-	print("draw")
 	self.sprite:draw()
 	self.dirty = false
 end
@@ -57,6 +56,10 @@ end
 function Spider:update()
 	if self.moving then
 		self:move()
+		-- self.sprite:update()
+		-- if self.sprite.dirty == true then
+		-- 	self.dirty = true
+		-- end
 	end
 	self.sprite:update()
 	if self.sprite.dirty then
@@ -78,7 +81,7 @@ function Spider:move()
 end
 
 function Spider:setX(x)
-	if (x ~= self.sprite.x) then
+	if (math.modf(x) ~= math.modf(self.sprite.x)) then
 		self.dirty = true
 	end
 	self.sprite.x = x
@@ -124,6 +127,11 @@ end
 
 function Spider:getBaseCentreX()
 	return self.sprite:getBaseCentreX()
+end
+
+function Spider:setMoving(moving)
+	self.moving = moving
+	self.sprite:setMoving()
 end
 
 function Spider.new(player, screen)

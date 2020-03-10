@@ -17,6 +17,8 @@ function GameScreen:init(folder, player)
 	self.interactables = {}
 	self:addPlayer(player)
 	self.timer = 0
+	self.timeBetweenFrames = 0
+	self.lastTimeBetweenFrames = 0
 end
 
 function GameScreen:reset()
@@ -51,37 +53,31 @@ function GameScreen:draw()
 
 		love.graphics.draw(GameScreen.magicSymbol, 2, 2)
 		love.graphics.printf("" .. self.player.magic, 10, 4, 400, 'left')
+		self.lastTimeBetweenFrames = self.timeBetweenFrames;
+		self.timeBetweenFrames = 0
+		love.graphics.printf("" .. self.lastTimeBetweenFrames, 300, 4, 400, 'left')
 		love.graphics.scale( 0.5, 0.5 )
 		self.dirty = false
+	else
+		self.timeBetweenFrames = self.timeBetweenFrames + 1
 	end
 
 	self.timer = self.timer + 1
 end
 
 function GameScreen:update(dt, setDebug)
-	for i = 1, table.getn(self.interactables) do
-		if self.interactables[i].dying == true then
-			setDebug("death1")
-			table.remove(self.interactables, i)
-			i = i - 1
-		end
-	end
-
 	local a = self.objects 
 	local b = a[1]
 	local c = b.dying
 	for i = 1, table.getn(self.objects) do
-		if self.objects[i].dying == true then
-			setDebug("death2")
-			table.remove(self.objects, i)
-			i = i - 1
+		-- if self.objects[i].dying == true then
+			-- setDebug("death2")
+			-- table.remove(self.objects, i)
+			-- i = i - 1
+		if self.objects[i].update ~= nil then
+			self.objects[i]:update()
 		end
 	end
-	return self.player:update()
-end
-
-function GameScreen:update(dt)
-	return self.player:update()
 end
 
 function GameScreen:addPlayer(player)

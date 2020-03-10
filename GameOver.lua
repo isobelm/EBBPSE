@@ -1,25 +1,40 @@
 --Game Over
-local this = {}
+local GameOver = {}
 
-function this:init()
-	this.image = love.graphics.newImage('Resources/Backgrounds/GameOver.png')
+GameOver.__index = GameOver
+
+function GameOver:init()
+	self.image = love.graphics.newImage('Resources/Backgrounds/GameOver.png')
+	self.dirty = true
 end
 
-function this:draw()
-	love.graphics.draw(this.image, 0, 0)
+function GameOver:draw()
+	if self.dirty then
+		love.graphics.draw(self.image, 0, 0)
+		self.dirty = false
+	end
 end
 
-function this:reset()
+function GameOver:reset()
 end
 
-function this:update(dt) 
+function GameOver:update(dt) 
 end
 
-function this:keyreleased( key )
+function GameOver:keyreleased( key )
 	return "Levels/TownGate"
 end
 
-function this:keypressed(key)
+function GameOver:keypressed(key)
 end
 
-return this
+function GameOver.new(player)
+	local self = setmetatable({}, GameOver)
+	self:init()
+	return self
+end
+
+setmetatable(GameOver,{__index = GameScreen})
+
+
+return GameOver

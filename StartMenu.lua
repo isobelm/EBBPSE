@@ -1,26 +1,32 @@
 --Start menu
-local this = {}
+local StartMenu = {}
 
-function this:init()
-	this.image = love.graphics.newImage('Resources/Backgrounds/startMenu.png')
+StartMenu.__index = StartMenu
+
+function StartMenu:init()
+	self.image = love.graphics.newImage('Resources/Backgrounds/StartMenu.png')
+	self.dirty = true
 end
 
-function this:draw()
-	love.graphics.draw(this.image, 0, 0)
-	love.graphics.printf("Press any key to start", 0, 250, 800, 'center')
+function StartMenu:draw()
+	if self.dirty then
+		love.graphics.draw(self.image, 0, 0)
+		love.graphics.printf("Press any key to start", 0, 250, 800, 'center')
+		self.dirty = false
+	end
+end 
+
+function StartMenu:reset()
 end
 
-function this:reset()
+function StartMenu:update(dt) 
 end
 
-function this:update(dt) 
-end
-
-function this:keyreleased( key )
+function StartMenu:keyreleased( key )
 	return "Levels/TownGate"
 end
 
-function this:keypressed(key)
+function StartMenu:keypressed(key)
 end
 
-return this
+return StartMenu

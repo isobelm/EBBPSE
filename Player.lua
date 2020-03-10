@@ -12,7 +12,7 @@ function Player:init(setDebug)
 	self.body = Head.new(setDebug)
 	self:setX(200)
 	self:setY(150)
-	self.magic = 100
+	self.magic = 10
 	self.setDebug = setDebug
 	self.timer = 0
 	self.dirty = true
@@ -154,7 +154,7 @@ function Player:update(dt)
 		elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') then  
 			local canMove = self:canMove("up")
 			if canMove == true then
-				if math.modf(self:getX() + self:getSpeed()) ~= math.modf(self:getX()) then
+				if math.modf(self:getY() + self:getSpeed()) ~= math.modf(self:getY()) then
 					self.dirty = true
 				end
 				self:setY(self:getY() - self:getSpeed())
@@ -164,7 +164,7 @@ function Player:update(dt)
 		elseif love.keyboard.isDown('down') or love.keyboard.isDown('s') then
 			local canMove = self:canMove("down")
 			if canMove == true then
-				if math.modf(self:getX() + self:getSpeed()) ~= math.modf(self:getX()) then
+				if math.modf(self:getY() + self:getSpeed()) ~= math.modf(self:getY()) then
 					self.dirty = true
 				end
 				self:setY(self:getY() + self:getSpeed())
@@ -179,6 +179,8 @@ function Player:update(dt)
 		self.magic = self.magic - 1;
 		if self.magic <= 0 then
 			return "GameOver"
+		else
+			self.dirty = true
 		end
 	end
 
@@ -211,7 +213,7 @@ end
 
 function Player:keypressed( key )
 	if (key == "w" or key == "up") then
-		print("dirty")
+		-- print("dirty")
 		self:setDirection("u")
 		self.dirty = true
 	elseif (key == "d" or key == "right") then

@@ -36,13 +36,13 @@ function TownGate:update(dt)
 	self.timer = self.timer + dt
 	-- print(self.timer)
 	GameScreen.update(self, dt)
-	if self.timer > 2000 and self.spider == nil then
+	if self.timer > 1500 and self.timer < 1510 and self.spider == nil then
 		self:createSpider()
 	end
 	if (self.spider) then
-		if self.spider:getX() == 410 and self.spider:getDirection() == 'l' then
+		if math.modf(self.spider:getX()) == 215 and self.spider:getDirection() == 'l' then
 			self.spider:setDirection("u")
-		elseif self.spider:getY() == 100 and self.spider:getDirection() == 'u' then
+		elseif math.modf(self.spider:getY()) == 80 and self.spider:getDirection() == 'u' then
 			self.spider:setDirection("l")
 		elseif self.spider:getX() < 0 then
 			self.spider = nil
@@ -54,7 +54,7 @@ end
 function TownGate:draw()
 	GameScreen.draw(self)
 	if (self.spider ~= nil) then
-	self.spider:draw()
+	-- self.spider:draw()
 	end
 end
 
@@ -63,7 +63,7 @@ function TownGate:createSpider()
 	self.spider:setX(400)
 	self.spider:setY(192)
 	self.spider:setDirection("l")
-	self.spider.moving = true
+	self.spider:setMoving(true)
 	table.insert(self.objects, self.spider)
 	table.insert(self.interactables, self.spider)
 end
