@@ -3,8 +3,6 @@ function love.conf(t)
 	t.console = true
 end
 
---Main
-require "conf"
 local startMenu = require "StartMenu"
 local Player = require "Player"
 local pauseForDebug = false
