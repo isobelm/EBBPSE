@@ -16,7 +16,7 @@ function Animation:init(folder)
 	self.frame = 0
 	self.currentImage = 0
 	self.numberOfImages = table.getn(self.images) + 1
-	self.frameRate = 50
+	self.frameRate = 100
 	self.dirty = true
 end
 
@@ -31,12 +31,15 @@ end
 
 function Animation:update()
 	-- print("update")
-	if (self.frame == self.frameRate) then
+	-- print(self.frame)
+	-- print(self.moving)
+	if (self.frame >= self.frameRate) then
 		self.currentImage = math.fmod(self.currentImage + 1, self.numberOfImages)
 		self.frame = 0
 		self.dirty = true
+		-- print("update")
 	end
-	if (moving) then
+	if (self.moving) then
 		self.frame = self.frame + 1
 	end
 end

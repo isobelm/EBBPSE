@@ -28,6 +28,11 @@ end
 
 --Getters and setters
 
+function Body:setMoving(moving)
+	self.moving = moving
+	self.sprite:setMoving(moving)
+end
+
 function Body:getType()
 	return self.type
 end

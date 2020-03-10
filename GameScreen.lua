@@ -48,7 +48,7 @@ function GameScreen:draw()
 		for i = 1, table.getn(self.objects) do
 			self.objects[i]:draw()
 		end
-		self.player:draw()
+		-- self.player:draw()
 
 
 		love.graphics.draw(GameScreen.magicSymbol, 2, 2)

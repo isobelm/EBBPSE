@@ -12,7 +12,7 @@ function Player:init(setDebug)
 	self.body = Head.new(setDebug)
 	self:setX(200)
 	self:setY(150)
-	self.magic = 10
+	self.magic = 100
 	self.setDebug = setDebug
 	self.timer = 0
 	self.dirty = true
@@ -188,7 +188,7 @@ function Player:update(dt)
 end
 
 function Player:keyreleased( key, interactables)
-	self.body.moving = true
+	self.body:setMoving(false)
 	
 	if (key == "space") then
 		local closest = nil
@@ -212,8 +212,8 @@ function Player:keyreleased( key, interactables)
 end
 
 function Player:keypressed( key )
+	self.body:setMoving(true)
 	if (key == "w" or key == "up") then
-		-- print("dirty")
 		self:setDirection("u")
 		self.dirty = true
 	elseif (key == "d" or key == "right") then

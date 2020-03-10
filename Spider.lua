@@ -88,7 +88,7 @@ function Spider:setX(x)
 end
 
 function Spider:setY(y)
-	if (y ~= self.sprite.y) then
+	if (math.modf(y) ~= math.modf(self.sprite.y)) then
 		self.dirty = true
 	end
 	self.sprite.y = y
@@ -131,7 +131,7 @@ end
 
 function Spider:setMoving(moving)
 	self.moving = moving
-	self.sprite:setMoving()
+	self.sprite:setMoving(moving)
 end
 
 function Spider.new(player, screen)

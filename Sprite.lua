@@ -35,7 +35,6 @@ function Sprite:update()
 	self.animations[self.direction]:update()
 	if self.animations[self.direction].dirty == true then
 		self.dirty = true
-		-- print("dirty")
 	end
 end
 
@@ -75,6 +74,9 @@ end
 
 function Sprite:setMoving(moving)
 	self.moving = moving
+	for d, animation in pairs(self.animations) do
+		animation.moving = moving
+	end
 	self.animations[self.direction].moving = moving
 end
 
