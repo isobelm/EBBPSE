@@ -23,10 +23,19 @@ function Sprite:init(folder)
 	self.baseOffset = (self.height / 3) * 2
 	self.baseCentreY = ((self.height - self.baseOffset) / 2) + self.baseOffset
 	self.moving = true
+	self.dirty = true
 end
 
 function Sprite:draw()
 	self.animations[self.direction]:draw(self.x, self.y, self.moving)
+	self.dirty = false
+end
+
+function Sprite:update()
+	self.animations[self.direction]:update()
+	if self.animations[self.direction].dirty == true then
+		self.dirty = true
+	end
 end
 
 --Getters and Setters
@@ -38,11 +47,13 @@ end
 
 function Sprite:setDirection( direction )
 	self.direction = direction
+	self.dirty = true
 end
 
 function Sprite:setBaseOffest(offset)
 	self.baseOffset = offset
 	self.baseCenterY = ((self.height - self.baseOffset) / 2) + self.baseOffset
+	self.dirty = true
 end
 
 function Sprite:getBaseOffset()

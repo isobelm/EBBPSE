@@ -15,10 +15,19 @@ function Player:init(setDebug)
 	self.magic = 100
 	self.setDebug = setDebug
 	self.timer = 0
+	self.dirty = true
 end
 
 function Player:draw()
 	self.body:draw()
+	self.dirty = false
+end
+
+function Player:update()
+	self.body:update()
+	if self.body.dirty == true then
+		self.dirty = true
+	end
 end
 
 function Player:canMove(direction)
@@ -115,40 +124,49 @@ function Player:setObjectMap( objectMap )
 end
 
 function Player:update(dt)
+	self.body:update()
 	if love.keyboard.isDown('right') or love.keyboard.isDown('left') or love.keyboard.isDown('up') or love.keyboard.isDown('down') or
 			love.keyboard.isDown('w') or love.keyboard.isDown('a') or love.keyboard.isDown('s') or love.keyboard.isDown('d') then
 		self.body.moving = true
 		if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
-			self:setDirection("r")
 			local canMove = self:canMove("right")
 			if canMove == true then
+				if math.modf(self:getX() + self:getSpeed()) ~= math.modf(self:getX()) then
+					self.dirty = true
+				end
 				self:setX(self:getX() + self:getSpeed())
 			elseif canMove ~= false then
 				return canMove
 			end
 		elseif love.keyboard.isDown('left') or love.keyboard.isDown('a') then
-			self:setDirection("l")
 			local canMove = self:canMove("left")
 			if (canMove ~= true) then
 				self.setDebug(canMove)
 			end
 			if canMove == true then
+				if math.modf(self:getX() + self:getSpeed()) ~= math.modf(self:getX()) then
+					self.dirty = true
+				end
 				self:setX(self:getX() - self:getSpeed())
 			elseif canMove ~= false then
 				return canMove
 			end
 		elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') then  
-			self:setDirection("u")
 			local canMove = self:canMove("up")
 			if canMove == true then
+				if math.modf(self:getX() + self:getSpeed()) ~= math.modf(self:getX()) then
+					self.dirty = true
+				end
 				self:setY(self:getY() - self:getSpeed())
 			elseif canMove ~= false then
 				return canMove
 			end
 		elseif love.keyboard.isDown('down') or love.keyboard.isDown('s') then
-			self:setDirection("d")
 			local canMove = self:canMove("down")
 			if canMove == true then
+				if math.modf(self:getX() + self:getSpeed()) ~= math.modf(self:getX()) then
+					self.dirty = true
+				end
 				self:setY(self:getY() + self:getSpeed())
 			elseif canMove ~= false then
 				return canMove
@@ -169,7 +187,7 @@ end
 
 function Player:keyreleased( key, interactables)
 	self.body.moving = true
-
+	
 	if (key == "space") then
 		local closest = nil
 		local closestDist = 0;
@@ -188,6 +206,23 @@ function Player:keyreleased( key, interactables)
 		if (closest ~= nil) then
 			return "interaction", closest:getInteraction()
 		end
+	end
+end
+
+function Player:keypressed( key )
+	if (key == "w" or key == "up") then
+		print("dirty")
+		self:setDirection("u")
+		self.dirty = true
+	elseif (key == "d" or key == "right") then
+		self:setDirection("r")
+		self.dirty = true
+	elseif (key == "s" or key == "down") then
+		self:setDirection("d")
+		self.dirty = true
+	elseif (key == "a" or key == "left") then
+		self:setDirection("l")
+		self.dirty = true
 	end
 end
 

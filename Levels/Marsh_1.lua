@@ -8,6 +8,7 @@ Marsh_1.__index = Marsh_1
 
 
 function Marsh_1:initMarsh_1()
+	self.dirty = true
 end
 
 function Marsh_1:initObjects()

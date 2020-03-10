@@ -19,4 +19,7 @@ function this:keyreleased( key )
 	return "Levels/TownGate"
 end
 
+function this:keypressed(key)
+end
+
 return this

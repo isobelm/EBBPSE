@@ -17,6 +17,7 @@ function Animation:init(folder)
 	self.currentImage = 0
 	self.numberOfImages = table.getn(self.images) + 1
 	self.frameRate = 50
+	self.dirty = true
 end
 
 function Animation:setFrameRate(fr)
@@ -25,9 +26,14 @@ end
 
 function Animation:draw(x, y, moving)
 	love.graphics.draw(self.images[self.currentImage], x, y)
+	self.dirty = false
+end
+
+function Animation:update()
 	if (self.frame == self.frameRate) then
 		self.currentImage = math.fmod(self.currentImage + 1, self.numberOfImages)
 		self.frame = 0
+		self.dirty = true
 	end
 	if (moving) then
 		self.frame = self.frame + 1

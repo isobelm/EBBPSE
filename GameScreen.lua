@@ -27,22 +27,33 @@ function GameScreen:initObjects()
 end
 
 function GameScreen:draw()
-	-- self.sort(self.objects, function (a, b)
-	-- 		return a:getBaseCentreY() > b:getBaseCentreY()
-	-- 	end
-	-- )
-	love.graphics.scale( 2, 2 )
+	for i = 1, table.getn(self.objects) do
+		if self.objects[i].dirty == true then
+			self.dirty = true
+		end
+	end
+	if self.dirty then
+		self.sort(self.objects, function (a, b)
+				return a:getBaseCentreY() > b:getBaseCentreY()
+			end
+		)
+		love.graphics.scale( 2, 2 )
 
-	love.graphics.draw(self.background, 0, 0)
+			love.graphics.draw(self.background, 0, 0)
+			self.dirty = false
+			-- print("Drawn")
 
-	-- for i = 1, table.getn(self.objects) do
-	-- 	self.objects[i]:draw()
-	-- end
-	self.player:draw()
+		for i = 1, table.getn(self.objects) do
+			self.objects[i]:draw()
+		end
+		self.player:draw()
 
 
-	love.graphics.draw(GameScreen.magicSymbol, 2, 2)
-	love.graphics.printf("" .. self.player.magic, 10, 4, 400, 'left')
+		love.graphics.draw(GameScreen.magicSymbol, 2, 2)
+		love.graphics.printf("" .. self.player.magic, 10, 4, 400, 'left')
+		love.graphics.scale( 0.5, 0.5 )
+		self.dirty = false
+	end
 
 	self.timer = self.timer + 1
 end
@@ -92,7 +103,7 @@ function GameScreen.isBefore(a, b)
 	return a.getY() < b.getY()
 end
 
-function GameScreen.sort( arr, compare)
+function GameScreen.sort( arr, compare )
 	length = table.getn(arr)
 	if length <= 1 then
 		return
@@ -106,6 +117,12 @@ function GameScreen.sort( arr, compare)
 				arr[j] = tmp
 			end
 		end
+	end
+end
+
+function GameScreen:keypressed( key )
+	if (self.player ~= nil) then
+		self.player:keypressed( key )
 	end
 end
 

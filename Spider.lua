@@ -49,9 +49,18 @@ function Spider:interactionOptions(selected)
 end
 
 function Spider:draw()
+	print("draw")
 	self.sprite:draw()
+	self.dirty = false
+end
+
+function Spider:update()
 	if self.moving then
 		self:move()
+	end
+	self.sprite:update()
+	if self.sprite.dirty then
+		self.dirty = true
 	end
 end
 
@@ -69,10 +78,16 @@ function Spider:move()
 end
 
 function Spider:setX(x)
+	if (x ~= self.sprite.x) then
+		self.dirty = true
+	end
 	self.sprite.x = x
 end
 
 function Spider:setY(y)
+	if (y ~= self.sprite.y) then
+		self.dirty = true
+	end
 	self.sprite.y = y
 end
 
@@ -85,6 +100,9 @@ function Spider:getY()
 end
 
 function Spider:setDirection( direction )
+	if (direction ~= self.direction) then
+		self.dirty = true
+	end
 	self.sprite:setDirection(direction)
 end
 

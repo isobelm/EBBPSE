@@ -17,6 +17,7 @@ local screens = {}
 local currentScreen = nil
 local interaction = nil
 local interacting = false
+local canvas = nil
 
 function init()
 	player = Player.new(setDebug)
@@ -36,6 +37,11 @@ function love.load()
 		currentScreen = startMenu
 		init()
 	end
+
+	canvas = love.graphics.newCanvas(800, 604)
+	love.graphics.setBlendMode("alpha", "premultiplied")
+
+ 
 end
 
 function testingInit()
@@ -48,6 +54,8 @@ function testingInit()
 end
 
 function love.draw()
+    love.graphics.setCanvas(canvas)
+	love.graphics.setColor(1, 1, 1, 1)
 	if (pauseForDebug) then
 		-- love.graphics.printf(debugMessage, 0, 250, 800, 'center')
 		debugTime = debugTime - 1
@@ -64,6 +72,8 @@ function love.draw()
 		end
 	end
 	love.graphics.print(tostring(love.timer.getFPS( )), 280, 4)
+    love.graphics.setCanvas()
+	love.graphics.draw(canvas, 0, 0)
 end
 
 function love.update(dt)
@@ -105,6 +115,12 @@ function love.keyreleased( key, scancode, isrepeat )
 		newScreen, interactionLocal = currentScreen:keyreleased( key , setDebug)
 	end
 	switchScreen(newScreen, interactionLocal)
+end
+
+function love.keypressed(key)
+	if interacting == false then
+		currentScreen:keypressed( key)
+	end
 end
 
 function switchScreen(screen, interactionLocal)

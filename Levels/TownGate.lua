@@ -14,10 +14,12 @@ function TownGate:initTownGate()
 	self.portals.red = nil
 	self.portals.green = "Levels/Marsh_1"
 	self.player.portals = self.portals
+	self.dirty = true
 end
 
 function TownGate:reset()
 	love.graphics.setFont(self.font)
+	self.dirty = true
 end
 
 function TownGate:initObjects()
@@ -31,16 +33,18 @@ function TownGate:initObjects()
 end
 
 function TownGate:update(dt)
+	self.timer = self.timer + dt
+	-- print(self.timer)
 	GameScreen.update(self, dt)
-	if self.timer == 120 then
+	if self.timer > 2000 and self.spider == nil then
 		self:createSpider()
 	end
 	if (self.spider) then
-		if self.timer == 2000 then
+		if self.spider:getX() == 410 and self.spider:getDirection() == 'l' then
 			self.spider:setDirection("u")
-		elseif self.timer == 3100 then
+		elseif self.spider:getY() == 100 and self.spider:getDirection() == 'u' then
 			self.spider:setDirection("l")
-		elseif self.timer == 5500 then
+		elseif self.spider:getX() < 0 then
 			self.spider = nil
 		end
 	end
@@ -70,6 +74,10 @@ function TownGate.new(player)
 	self:init("Resources/Areas/TownGate", player)
 	self:initTownGate()
 	return self
+end
+
+function TownGate:keypressed( key )
+	GameScreen.keypressed( self, key )
 end
 
 setmetatable(TownGate,{__index = GameScreen})

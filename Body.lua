@@ -11,12 +11,20 @@ function Body:init(folder, setDebug)
 	self.speed = 1
 	self.magicLossSpeed = 600
 	self.setDebug = setDebug
+	self.dirty = true
 end
 
 function Body:draw()
 	self.sprite:draw()
+	self.dirty = false
 end
 
+function Body:update()
+	self.sprite:update()
+	if self.sprite.dirty == true then
+		self.dirty = true
+	end
+end
 
 --Getters and setters
 
@@ -34,10 +42,12 @@ end
 
 function Body:setX(x)
 	self.sprite.x = x
+	self.dirty = true
 end
 
 function Body:setY(y)
 	self.sprite.y = y
+	self.dirty = true
 end
 
 function Body:getHeight()
@@ -54,6 +64,7 @@ end
 
 function Body:setDirection( direction )
 	self.sprite:setDirection(direction)
+	self.dirty = true
 end
 
 function Body:setBaseOffset(offset)
