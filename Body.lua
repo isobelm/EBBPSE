@@ -6,11 +6,10 @@ local Body = {}
 Body.__index = Body
 
 
-function Body:init(folder, setDebug)
+function Body:init(folder)
 	self.sprite = Sprite.new(folder)
 	self.speed = 1
 	self.magicLossSpeed = 600
-	self.setDebug = setDebug
 	self.dirty = true
 end
 

@@ -8,12 +8,12 @@ Player.__index = Player
 
 local INTERACTIVE_DIST = 32
 
-function Player:init(setDebug)
-	self.body = Head.new(setDebug)
+function Player:init()
+	self.name = "player"
+	self.body = Head.new()
 	self:setX(200)
 	self:setY(150)
 	self.magic = 100
-	self.setDebug = setDebug
 	self.timer = 0
 	self.dirty = true
 end
@@ -141,7 +141,6 @@ function Player:update(dt)
 		elseif love.keyboard.isDown('left') or love.keyboard.isDown('a') then
 			local canMove = self:canMove("left")
 			if (canMove ~= true) then
-				self.setDebug(canMove)
 			end
 			if canMove == true then
 				if math.modf(self:getX() + self:getSpeed()) ~= math.modf(self:getX()) then
@@ -297,9 +296,9 @@ end
 
 
 --Constructor
-function Player.new(setDebug)
+function Player.new()
   local self = setmetatable({}, Player)
-  self:init(setDebug)
+  self:init()
 
   return self
 end

@@ -6,10 +6,12 @@ StaticObject.__index = StaticObject
 
 
 function StaticObject:init(path)
+	self.name = path
 	self.image = love.graphics.newImage(path)
 	self.baseCenterX = self.image:getWidth() / 2
 	self.baseOffset = (self.image:getHeight() / 3) * 2
 	self.baseCenterY = ((self.image:getHeight() - self.baseOffset) / 2) + self.baseOffset
+	self.dying = false
 end
 
 function StaticObject:draw()

@@ -18,7 +18,7 @@ local interacting = false
 local canvas = nil
 
 function init()
-	player = Player.new(setDebug)
+	player = Player.new()
 	player:setX(188)
 	player:setY(100)
 	startMenu:init(timer)
@@ -30,7 +30,7 @@ function love.load()
 	love.window.setTitle( "Extreme Body Builder Pro Super Edition" )
 	love.graphics.setDefaultFilter("nearest", "nearest", 1)
 	font = love.graphics.newImageFont('Resources/Fonts/alphabet_2.png', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#.!?: ", 2)
-	love.setFont(font)
+	love.graphics.setFont(font)
 	if (testing) then 
 		testingInit()
 	else
@@ -45,7 +45,7 @@ function love.load()
 end
 
 function testingInit()
-	player = Player.new(setDebug)
+	player = Player.new()
 	player:setBodyType("SpiderQueen")
 	player:setX(188)
 	player:setY(100)
@@ -85,15 +85,6 @@ function love.update(dt)
 	end
     switchScreen(newScreen)
     if player == nil then
-		setDebug("Sure, that makes sense")
-	end
-end
-
-function setDebug(message)
-	if debugMode then
-		debugMessage = message
-		debugTime = 360
-		pauseForDebug = true
 	end
 end
 
@@ -110,9 +101,9 @@ function love.keyreleased( key, scancode, isrepeat )
 
 	local newScreen, interactionLocal = nil
 	if (interacting) then
-		newScreen, interactionLocal = interaction:keyreleased( key , setDebug)
+		newScreen, interactionLocal = interaction:keyreleased( key )
 	else
-		newScreen, interactionLocal = currentScreen:keyreleased( key , setDebug)
+		newScreen, interactionLocal = currentScreen:keyreleased( key )
 	end
 	switchScreen(newScreen, interactionLocal)
 end
@@ -127,7 +118,6 @@ function switchScreen(screen, interactionLocal)
 	if screen == nil then
 	elseif screen == "interaction" then
 		interaction = interactionLocal
-		setDebug(interaction.objectName)
 		interacting = true
 	elseif screen == "return" then
 		currentScreen:reset()

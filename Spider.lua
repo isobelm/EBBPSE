@@ -9,6 +9,7 @@ Spider.__index = Spider
 
 
 function Spider:init(player, screen)
+	self.name = "spider"
 	self.sprite = Sprite.new("Resources/Sprites/Spider")
 	self.sprite:setAnimationSpeed(60)
 	self.speed = 0.1
@@ -38,6 +39,8 @@ end
 
 function Spider:die() 
 	self.dying = true
+	self.dirty = true
+	-- self = nil
 end
 
 function Spider:interactionOptions(selected)

@@ -65,16 +65,20 @@ function GameScreen:draw()
 	self.timer = self.timer + 1
 end
 
-function GameScreen:update(dt, setDebug)
-	local a = self.objects 
-	local b = a[1]
-	local c = b.dying
+function GameScreen:update(dt)
+	for i = 1, table.getn(self.interactables) do
+		if self.interactables[i].dying == true then
+			table.remove(self.interactables, i)
+			i = i - 1
+		end
+	end
+
 	for i = 1, table.getn(self.objects) do
-		-- if self.objects[i].dying == true then
-			-- setDebug("death2")
-			-- table.remove(self.objects, i)
-			-- i = i - 1
-		if self.objects[i].update ~= nil then
+		local a = self.objects[i]
+		if a == nil or ( a.dying ~= nil and a.dying == true ) then
+			table.remove(self.objects, i)
+			i = i - 1
+		elseif self.objects[i].update ~= nil then
 			self.objects[i]:update()
 		end
 	end
@@ -91,8 +95,8 @@ function GameScreen:addObject(object)
 	table.insert(self.objects, object)
 end
 
-function GameScreen:keyreleased( key, setDebug )
-	return self.player:keyreleased(key, self.interactables, setDebug)
+function GameScreen:keyreleased( key )
+	return self.player:keyreleased(key, self.interactables)
 end
 
 function GameScreen.isBefore(a, b)
