@@ -43,12 +43,10 @@ function GameScreen:draw()
 
 			love.graphics.draw(self.background, 0, 0)
 			self.dirty = false
-			-- print("Drawn")
 
 		for i = 1, table.getn(self.objects) do
 			self.objects[i]:draw()
 		end
-		-- self.player:draw()
 
 
 		love.graphics.draw(GameScreen.magicSymbol, 2, 2)
@@ -61,11 +59,10 @@ function GameScreen:draw()
 	else
 		self.timeBetweenFrames = self.timeBetweenFrames + 1
 	end
-
-	self.timer = self.timer + 1
 end
 
 function GameScreen:update(dt)
+	self.timer = self.timer + dt
 	for i = 1, table.getn(self.interactables) do
 		if self.interactables[i].dying == true then
 			table.remove(self.interactables, i)
@@ -79,7 +76,8 @@ function GameScreen:update(dt)
 			table.remove(self.objects, i)
 			i = i - 1
 		elseif self.objects[i].update ~= nil then
-			self.objects[i]:update()
+			local tmp = self.objects[i]:update()
+			if tmp ~= nil then return tmp end
 		end
 	end
 end

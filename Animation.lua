@@ -30,14 +30,10 @@ function Animation:draw(x, y, moving)
 end
 
 function Animation:update()
-	-- print("update")
-	-- print(self.frame)
-	-- print(self.moving)
 	if (self.frame >= self.frameRate) then
 		self.currentImage = math.fmod(self.currentImage + 1, self.numberOfImages)
 		self.frame = 0
 		self.dirty = true
-		-- print("update")
 	end
 	if (self.moving) then
 		self.frame = self.frame + 1

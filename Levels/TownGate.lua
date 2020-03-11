@@ -33,10 +33,9 @@ function TownGate:initObjects()
 end
 
 function TownGate:update(dt)
-	self.timer = self.timer + dt
-	-- print(self.timer)
-	GameScreen.update(self, dt)
-	if self.timer > 1500 and self.timer < 1510 and self.spider == nil then
+	local tmp = GameScreen.update(self, dt)
+	if tmp ~= nil then return tmp end
+	if self.timer > 2 and self.timer < 2.01 and self.spider == nil then
 		self:createSpider()
 	end
 	if (self.spider) then
@@ -48,14 +47,10 @@ function TownGate:update(dt)
 			self.spider = nil
 		end
 	end
-	return self.player:update()
 end
 
 function TownGate:draw()
 	GameScreen.draw(self)
-	if (self.spider ~= nil) then
-	-- self.spider:draw()
-	end
 end
 
 function TownGate:createSpider()

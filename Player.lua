@@ -13,7 +13,7 @@ function Player:init()
 	self.body = Head.new()
 	self:setX(200)
 	self:setY(150)
-	self.magic = 100
+	self.magic = 40
 	self.timer = 0
 	self.dirty = true
 end
