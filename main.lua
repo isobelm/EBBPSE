@@ -5,10 +5,6 @@ end
 
 local startMenu = require "StartMenu"
 local Player = require "Player"
-local pauseForDebug = false
-local debugMessage = nil
-local debugTime = 360
-local debugMode = false
 local testing = false
 
 local screens = {}
@@ -16,6 +12,7 @@ local currentScreen = nil
 local interaction = nil
 local interacting = false
 local canvas = nil
+local font = nil
 
 function init()
 	player = Player.new()
@@ -116,12 +113,14 @@ end
 function switchScreen(screen, interactionLocal)
 	if screen == nil then
 	elseif screen == "interaction" then
+		love.graphics.setFont(font)
 		interaction = interactionLocal
 		interacting = true
 	elseif screen == "return" then
 		currentScreen:reset()
 		interacting = false
 	else
+		currentScreen:newScreen(screen)
 		local screentype = require(screen)
 		currentScreen = screentype.new(player)
 	end

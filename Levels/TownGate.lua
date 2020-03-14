@@ -22,6 +22,13 @@ function TownGate:reset()
 	self.dirty = true
 end
 
+function TownGate:newScreen(portal)
+	if (portal == "Levels/Marsh_1") then
+		self.player:setX(400 - self.player:getX() - player:getWidth())
+	end
+	self = nil
+end
+
 function TownGate:initObjects()
 	self.objects = {}
 	self.objects[3] = StaticObject.new('Resources/Sprites/StaticObjects/tree_left.png')

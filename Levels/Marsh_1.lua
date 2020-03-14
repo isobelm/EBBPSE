@@ -9,6 +9,18 @@ Marsh_1.__index = Marsh_1
 
 function Marsh_1:initMarsh_1()
 	self.dirty = true
+	self.portals = {}
+	self.portals.red = "Levels/TownGate"
+	self.portals.blue = nil
+	self.portals.green = nil
+	self.player.portals = self.portals
+end
+
+function Marsh_1:newScreen(portal)
+	if (portal == "Levels/TownGate") then
+		self.player:setX(400 - self.player:getX() - player:getWidth())
+	end
+		self = nil
 end
 
 function Marsh_1:initObjects()

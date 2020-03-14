@@ -14,7 +14,11 @@ function StartMenu:draw()
 		love.graphics.printf("Press any key to start", 0, 250, 800, 'center')
 		self.dirty = false
 	end
-end 
+end
+
+function StartMenu:newScreen()
+	self = nil
+end
 
 function StartMenu:reset()
 end

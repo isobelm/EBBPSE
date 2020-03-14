@@ -22,7 +22,7 @@ function GameOver:update(dt)
 end
 
 function GameOver:keyreleased( key )
-	return "Levels/TownGate"
+	-- return "Levels/TownGate"
 end
 
 function GameOver:keypressed(key)
