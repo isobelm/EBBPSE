@@ -23,31 +23,40 @@ end
 function Spider:eat() 
 	self.player.magic = self.player.magic + 25
 	self:die()
+	return "You have eaten the spider.\n\t+ 25 magic"
 end
 
 function Spider:incorporate() 
+	local explanation
 	self.player.magic = self.player.magic - 20
 	if (self.player.magic > 0) then
+		explanation = "You have incorporated the spider.\n\t- 20 magic\n\t"
 		if self.player:getBodyType() == "SpiderQueen" then
 			self.player:getBody():addSpider()
+			explanation = explanation .. "+ 0.1 speed"
 		else
 			self.player:setBodyType("SpiderQueen")
+			explanation = explanation .. "New Body Acquired!"
 		end
+	else
+		explanation = "You do not have enough magic."
 	end
 	self:die()
+	return explanation
 end
 
 function Spider:die() 
 	self.dying = true
 	self.dirty = true
-	-- self = nil
 end
 
 function Spider:interactionOptions(selected)
 	if selected == 1 then
-		self:eat()
+		return self:eat()
 	elseif selected == 2 then
-		self:incorporate()
+		return self:incorporate()
+	else 
+		return "You left the spider alone."
 	end
 end
 
@@ -59,10 +68,6 @@ end
 function Spider:update()
 	if self.moving then
 		self:move()
-		-- self.sprite:update()
-		-- if self.sprite.dirty == true then
-		-- 	self.dirty = true
-		-- end
 	end
 	self.sprite:update()
 	if self.sprite.dirty then

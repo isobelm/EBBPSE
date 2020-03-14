@@ -15,6 +15,10 @@ function SpiderQueen:initSpiderQueen()
 	self.type = "spider"
 end
 
+function SpiderQueen:addSpider()
+	self.speed = self.speed + 0.1
+end
+
 function SpiderQueen.new()
  	local self = setmetatable({}, SpiderQueen)
  	self:init("Resources/Player/Spider_1")

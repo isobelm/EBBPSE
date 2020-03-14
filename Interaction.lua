@@ -8,7 +8,7 @@ function Interaction:init(objectName, objectImage, optionText, optionActions, sc
 	self.background = love.graphics.newImage('Resources/Backgrounds/interaction.png')
 	self.dialogueOption = love.graphics.newImage('Resources/Images/dialogueOption.png')
 	self.selectedDialogueOption = love.graphics.newImage('Resources/Images/selectedDialogueOption.png')
-	self.font = love.graphics.newImageFont('Resources/Fonts/alphabet_2.png', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#.!?: ", 2)
+	self.font = love.graphics.newImageFont('Resources/Fonts/alphabet.png', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#.!?: +-", 2)
 	love.graphics.setFont(self.font)
 	self.objectName = objectName
 	self.optionText = optionText
@@ -19,16 +19,26 @@ function Interaction:init(objectName, objectImage, optionText, optionActions, sc
 	self.selected = 1;
 	self.screen = screen
 	self.object = object
+	self.dirty = true
+	self.choosing = true
+	self.explanation = ""
 end
 
 function Interaction:draw()
-	love.graphics.draw(self.background, 0, 0)
-	love.graphics.draw(self.objectImage, self.x, self.y)
-	love.graphics.printf("You have encountered " .. self.objectName .. ". What would you like to do?", 64, 332, 672, 'left')
+	if (self.dirty) then
+		love.graphics.draw(self.background, 0, 0)
+		love.graphics.draw(self.objectImage, self.x, self.y)
+		if (self.choosing) then
+			love.graphics.printf("You have encountered " .. self.objectName .. ". What would you like to do?", 64, 332, 672, 'left')
 
-	length = table.getn(self.optionText)
-	for i=1,length do
-		self:drawOption(self.optionText[i], i, self.selected == i)
+			length = table.getn(self.optionText)
+			for i=1,length do
+				self:drawOption(self.optionText[i], i, self.selected == i)
+			end
+		else
+			love.graphics.printf(self.explanation, 64, 332, 672, 'left')
+		end
+		self.dirty = false
 	end
 
 end
@@ -47,18 +57,25 @@ function Interaction:update(dt)
 end
 
 function Interaction:keyreleased( key )
-	if key == "up" then
-		if (self.selected > 1) then
-			self.selected = self.selected - 1
+	if (self.choosing) then
+		if key == "up" then
+			if (self.selected > 1) then
+				self.selected = self.selected - 1
+			end
+		elseif key == "down" then
+			if (self.selected < table.getn(self.optionText)) then
+				self.selected = self.selected + 1
+			end
+		elseif key == "space" or key == "return" then
+			self.explanation = self.object:interactionOptions(self.selected)
+			self.choosing = false
 		end
-	elseif key == "down" then
-		if (self.selected < table.getn(self.optionText)) then
-			self.selected = self.selected + 1
+	else
+		if key == "space" or key == "return" then
+			return "return"
 		end
-	elseif key == "space" then
-		self.object:interactionOptions(self.selected)
-		return "return"
 	end
+	self.dirty = true;
 end
 
 function Interaction.new(objectName, objectImage, optionText, optionActions, screen, object)

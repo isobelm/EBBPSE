@@ -29,7 +29,7 @@ function love.load()
 	love.graphics.setBlendMode("alpha", "premultiplied")
 	love.window.setTitle( "Extreme Body Builder Pro Super Edition" )
 	love.graphics.setDefaultFilter("nearest", "nearest", 1)
-	font = love.graphics.newImageFont('Resources/Fonts/alphabet_2.png', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#.!?: ", 2)
+	font = love.graphics.newImageFont('Resources/Fonts/alphabet.png', "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789#.!?: +-", 2)
 	love.graphics.setFont(font)
 	if (testing) then 
 		testingInit()
@@ -57,7 +57,6 @@ function love.draw()
     love.graphics.setCanvas(canvas)
 	love.graphics.setColor(1, 1, 1, 1)
 	if (pauseForDebug) then
-		-- love.graphics.printf(debugMessage, 0, 250, 800, 'center')
 		debugTime = debugTime - 1
 		if (debugTime == 0) then
 			pauseForDebug = false
