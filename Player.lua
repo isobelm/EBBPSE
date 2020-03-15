@@ -13,7 +13,7 @@ function Player:init()
 	self.body = Head.new()
 	self:setX(200)
 	self:setY(150)
-	self.magic = 40
+	self.magic = 100
 	self.timer = 0
 	self.dirty = true
 end
@@ -31,91 +31,65 @@ function Player:update()
 end
 
 function Player:canMove(direction)
-	if direction == "right" then
-		if math.modf(self:getX() + self:getSpeed()) == math.modf(self:getX()) then
-			return true
-		elseif self:getX() + self:getSpeed() + self:getWidth() > love.graphics.getWidth() then
-			return false
-		end
-		for j = self:getY() + self:getBaseOffset(), self:getY() + self:getHeight() do
-			if j >= 0 and j < love.graphics.getHeight() then
-				local r, g, b, a = self.objectMap:getPixel(self:getX() + self:getWidth() + self:getSpeed(), j)
-				if r == 1 and g == 0 and b == 0 then
-					return self.portals.red
-				elseif g == 1 and r == 0 and b == 0 then
-					return self.portals.green
-				elseif b == 1 and g == 0 and r == 0 then
-					return self.portals.blue
-				elseif r == 0 and g == 0 and b == 0 then
-					return false
-				end
+	local change = {0,0}
+	local a, b, x, y
+	if direction == "r" then
+		change[0] = self:getSpeed()
+		change[1] = 0
+		a = self:getY() + self:getBaseOffset()
+		b = self:getY() + self:getHeight()
+	elseif direction == "l" then
+		change[0] = -self:getSpeed()
+		change[1] = 0
+		a = self:getY() + self:getBaseOffset()
+		b = self:getY() + self:getHeight()
+	elseif direction == "u" then
+		change[0] = 0
+		change[1] = -self:getSpeed()
+		a = self:getX()
+		b = self:getX() + self:getWidth()
+	elseif direction == "d" then
+		change[0] = 0
+		change[1] = self:getSpeed()
+		a = self:getX()
+		b = self:getX() + self:getWidth()
+	end
+
+	if math.modf(self:getX() + change[0]) == math.modf(self:getX())
+			and math.modf(self:getY() + change[1]) == math.modf(self:getY()) then
+		return true
+	elseif self:getX() + self:getSpeed() + self:getWidth() > love.graphics.getWidth() then
+		return false
+	end
+	for j = a, b do
+		if direction == "u" or direction == "d" then 
+			x = j
+			if direction == "u" then
+				y = self:getY() + self:getBaseOffset() - self:getSpeed()
+			else
+				y = self:getY() + self:getSpeed() + self:getHeight()
+			end
+		else
+			y = j
+			if direction == "r" then
+				x = self:getX() + self:getWidth() + self:getSpeed()
+			else
+				x = self:getX() - self:getSpeed()
 			end
 		end
-
-	elseif direction == "left" then
-		if math.modf(self:getX() - self:getSpeed()) == math.modf(self:getX()) then
-			return true
-		elseif (self:getX() - self:getSpeed()) < 0 then
-			return false
-		end
-		for j = self:getY() + self:getBaseOffset(), self:getY() + self:getHeight() do
-			if j >= 0 and j < love.graphics.getHeight() then
-				local r, g, b, a = self.objectMap:getPixel(self:getX() - self:getSpeed(), j)
-				if r == 1 and g == 0 and b == 0 then
-					return self.portals.red
-				elseif g == 1 and r == 0 and b == 0 then
-					return self.portals.green
-				elseif b == 1 and g == 0 and r == 0 then
-					return self.portals.blue
-				elseif r == 0x0 and g == 0x0 and b == 0x0 then
-					return false
-				end
-			end
-		end
-
-	elseif direction == "up" then
-		if math.modf(self:getY() + self:getBaseOffset() - self:getSpeed()) == math.modf(self:getY() + self:getBaseOffset()) then
-			return true
-		elseif (self:getY() + self:getBaseOffset() - self:getSpeed()) < 0 then
-			return false
-		end
-		for i = self:getX(), self:getX() + self:getWidth() do
-			if i >= 0 and i < love.graphics.getWidth() then
-				local r, g, b, a = self.objectMap:getPixel(i, self:getY() + self:getBaseOffset() - self:getSpeed())
-				if r == 1 and g == 0 and b == 0 then
-					return self.portals.red
-				elseif g == 1 and r == 0 and b == 0 then
-					return self.portals.green
-				elseif b == 1 and g == 0 and r == 0 then
-					return self.portals.blue
-				elseif r == 0x0 and g == 0x0 and b == 0x0 then
-					return false
-				end
-			end
-		end
-
-	elseif direction == "down" then
-		if math.modf(self:getY() + self:getBaseOffset() + self:getSpeed()) == math.modf(self:getY() + self:getBaseOffset()) then
-			return true
-		elseif self:getY() + self:getSpeed() + self:getHeight() > love.graphics.getHeight() then
-			return false
-		end
-		for i = self:getX(), self:getX() + self:getWidth() do
-			if i >= 0 and i < love.graphics.getWidth() then
-				local r, g, b, a = self.objectMap:getPixel(i, self:getY() + self:getSpeed() + self:getHeight())
-				if r == 1 and g == 0 and b == 0 then
-					return self.portals.red
-				elseif g == 1 and r == 0 and b == 0 then
-					return self.portals.green
-				elseif b == 1 and g == 0 and r == 0 then
-					return self.portals.blue
-				elseif r == 0x0 and g == 0x0 and b == 0x0 then
-					return false
-				end
+		if j >= 0 and j < love.graphics.getHeight() then
+			local r, g, b, a = self.objectMap:getPixel(x, y)
+			if r == 1 and g == 0 and b == 0 then
+				return self.portals.red
+			elseif g == 1 and r == 0 and b == 0 then
+				return self.portals.green
+			elseif b == 1 and g == 0 and r == 0 then
+				return self.portals.blue
+			elseif r == 0 and g == 0 and b == 0 then
+				return false
 			end
 		end
 	end
-
 	return true
 end
 
@@ -129,7 +103,7 @@ function Player:update(dt)
 			love.keyboard.isDown('w') or love.keyboard.isDown('a') or love.keyboard.isDown('s') or love.keyboard.isDown('d') then
 		self.body.moving = true
 		if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
-			local canMove = self:canMove("right")
+			local canMove = self:canMove("r")
 			if canMove == true then
 				if math.modf(self:getX() + self:getSpeed()) ~= math.modf(self:getX()) then
 					self.dirty = true
@@ -139,7 +113,7 @@ function Player:update(dt)
 				return canMove
 			end
 		elseif love.keyboard.isDown('left') or love.keyboard.isDown('a') then
-			local canMove = self:canMove("left")
+			local canMove = self:canMove("l")
 			if (canMove ~= true) then
 			end
 			if canMove == true then
@@ -151,7 +125,7 @@ function Player:update(dt)
 				return canMove
 			end
 		elseif love.keyboard.isDown('up') or love.keyboard.isDown('w') then  
-			local canMove = self:canMove("up")
+			local canMove = self:canMove("u")
 			if canMove == true then
 				if math.modf(self:getY() + self:getSpeed()) ~= math.modf(self:getY()) then
 					self.dirty = true
@@ -161,7 +135,7 @@ function Player:update(dt)
 				return canMove
 			end
 		elseif love.keyboard.isDown('down') or love.keyboard.isDown('s') then
-			local canMove = self:canMove("down")
+			local canMove = self:canMove("d")
 			if canMove == true then
 				if math.modf(self:getY() + self:getSpeed()) ~= math.modf(self:getY()) then
 					self.dirty = true

@@ -10,12 +10,14 @@ GameScreen.font = love.graphics.newImageFont('Resources/Fonts/numberFont.png', "
 GameScreen.magicSymbol = love.graphics.newImage('Resources/Images/magicSymbol.png')
 
 function GameScreen:init(folder, player)
+	self.portals ={}
 	self.background = love.graphics.newImage(folder .. '/background.png')
-	self:initObjects()
 	self.objectMap = love.image.newImageData(folder .. '/object_map.png')
-	love.graphics.setFont(GameScreen.font)
+	self.objects = {}
 	self.interactables = {}
 	self:addPlayer(player)
+	self:initObjects()
+	love.graphics.setFont(GameScreen.font)
 	self.timer = 0
 	self.timeBetweenFrames = 0
 	self.lastTimeBetweenFrames = 0
@@ -25,8 +27,8 @@ function GameScreen:reset()
 	love.graphics.setFont(GameScreen.font)
 end
 
-function GameScreen:initObjects()
-end
+-- function GameScreen:initObjects()
+-- end
 
 function GameScreen:draw()
 	for i = 1, table.getn(self.objects) do
@@ -64,7 +66,8 @@ end
 function GameScreen:update(dt)
 	self.timer = self.timer + dt
 	for i = 1, table.getn(self.interactables) do
-		if self.interactables[i].dying == true then
+		local a = self.objects[i]
+		if a == nil or (a.dying ~= nil and a.dying) == true then
 			table.remove(self.interactables, i)
 			i = i - 1
 		end
@@ -86,6 +89,7 @@ function GameScreen:addPlayer(player)
 	self.player = player
 	self.player:setObjectMap(self.objectMap)
 
+	-- print("player")
 	self:addObject(self.player)
 end
 

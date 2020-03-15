@@ -10,8 +10,6 @@ TownGate.__index = TownGate
 
 function TownGate:initTownGate()
 	self.name = "Levels/TownGate"
-	self.portals = {}
-	self.portals.red = nil
 	self.portals.green = "Levels/Marsh_1"
 	self.player.portals = self.portals
 	self.dirty = true
@@ -30,13 +28,16 @@ function TownGate:newScreen(portal)
 end
 
 function TownGate:initObjects()
-	self.objects = {}
-	self.objects[3] = StaticObject.new('Resources/Sprites/StaticObjects/tree_left.png')
-	self.objects[3]:setPos(24, 32)
-	self.objects[1] = StaticObject.new('Resources/Sprites/StaticObjects/tree_right.png')
-	self.objects[1]:setPos(248, 75)
-	self.objects[2] = StaticObject.new('Resources/Sprites/StaticObjects/full_wall.png')
-	self.objects[2]:setPos(0, 10)
+	local tmpObj = StaticObject.new('Resources/Sprites/StaticObjects/tree_left.png')
+	tmpObj:setPos(24, 32)
+	table.insert(self.objects, tmpObj)
+	tmpObj = StaticObject.new('Resources/Sprites/StaticObjects/tree_right.png')
+	tmpObj:setPos(248, 75)
+	table.insert(self.objects, tmpObj)
+	tmpObj = StaticObject.new('Resources/Sprites/StaticObjects/full_wall.png')
+	tmpObj:setPos(0, 10)
+	table.insert(self.objects, tmpObj)
+
 end
 
 function TownGate:update(dt)
@@ -70,6 +71,9 @@ function TownGate:createSpider()
 	table.insert(self.interactables, self.spider)
 end
 
+function TownGate:keypressed( key )
+	GameScreen.keypressed( self, key )
+end
 
 function TownGate.new(player)
 	local self = setmetatable({}, TownGate)
@@ -78,11 +82,6 @@ function TownGate.new(player)
 	return self
 end
 
-function TownGate:keypressed( key )
-	GameScreen.keypressed( self, key )
-end
-
 setmetatable(TownGate,{__index = GameScreen})
-
 
 return TownGate

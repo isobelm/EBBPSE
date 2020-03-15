@@ -1,6 +1,7 @@
 -- Marsh_1
 
 local GameScreen = require "GameScreen"
+local Spider = require "Spider"
 
 local Marsh_1 = {}
 
@@ -9,10 +10,7 @@ Marsh_1.__index = Marsh_1
 
 function Marsh_1:initMarsh_1()
 	self.dirty = true
-	self.portals = {}
 	self.portals.red = "Levels/TownGate"
-	self.portals.blue = nil
-	self.portals.green = nil
 	self.player.portals = self.portals
 end
 
@@ -24,7 +22,6 @@ function Marsh_1:newScreen(portal)
 end
 
 function Marsh_1:initObjects()
-	self.objects = {}
 	local tmpObj = StaticObject.new('Resources/Sprites/StaticObjects/tree_big.png')
 	tmpObj:setPos(210, -74)
 	table.insert(self.objects, tmpObj)
@@ -59,6 +56,14 @@ function Marsh_1:initObjects()
 	tmpObj:setPos(58, 259)
 	table.insert(self.objects, tmpObj)
 
+	for i = 1, 5 do
+		tmpObj = Spider.new(self.player, self.name)
+		tmpObj:setX(math.random(0, 400))
+		tmpObj:setY(math.random(0, 302))
+		tmpObj.objectMap = self.objectMap
+		table.insert(self.objects, tmpObj)
+		table.insert(self.interactables, tmpObj)
+	end
 end
 
 function Marsh_1.new(player)
