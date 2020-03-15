@@ -19,17 +19,16 @@ end
 function Spider:eat() 
 	self.player.magic = self.player.magic + 25
 	self:die()
-	return "You have eaten the spider.\n\t+ 25 magic"
+	return "You have eaten the spider.\n\t+25 magic"
 end
 
 function Spider:incorporate() 
 	local explanation
 	self.player.magic = self.player.magic - 20
 	if (self.player.magic > 0) then
-		explanation = "You have incorporated the spider.\n\t- 20 magic\n\t"
+		explanation = "You have incorporated the spider.\n\t-20 magic\n\t"
 		if self.player:getBodyType() == "spider" then
-			self.player:getBody():addSpider()
-			explanation = explanation .. "+ 0.1 speed"
+			explanation = explanation .. self.player:getBody():addSpider()
 		else
 			self.player:setBodyType("SpiderQueen")
 			explanation = explanation .. "New Body Acquired!"

@@ -56,10 +56,10 @@ function Marsh_1:initObjects()
 	tmpObj:setPos(58, 259)
 	table.insert(self.objects, tmpObj)
 
-	for i = 1, 5 do
+	for i = 1, math.random(5) do
 		tmpObj = Spider.new(self.player, self.name)
-		tmpObj:setX(math.random(0, 400))
-		tmpObj:setY(math.random(0, 302))
+		tmpObj:setX(math.modf(math.random(0, 399 - tmpObj:getWidth())))
+		tmpObj:setY(math.modf((math.random(0 + tmpObj:getBaseOffset(), 301 - tmpObj:getHeight()))))
 		tmpObj.objectMap = self.objectMap
 		table.insert(self.objects, tmpObj)
 		table.insert(self.interactables, tmpObj)

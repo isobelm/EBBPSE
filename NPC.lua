@@ -70,7 +70,6 @@ end
 
 
 function NPC:canMove(direction)
-	-- print("canMove")
 	local change = {0,0}
 	local a, b, x, y
 	if direction == "r" then
@@ -117,7 +116,7 @@ function NPC:canMove(direction)
 				x = self:getX() - self:getSpeed()
 			end
 		end
-		if j >= 0 and j < love.graphics.getHeight() then
+		if x >= 0 and x < 400 and y >= 0 and y < 302 then
 			local r, g, b, a = self.objectMap:getPixel(x, y)
 			if r == 0 and g == 0 and b == 0 then
 				return false
