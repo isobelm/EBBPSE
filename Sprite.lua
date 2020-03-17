@@ -24,17 +24,28 @@ function Sprite:init(folder)
 	self.baseCentreY = ((self.height - self.baseOffset) / 2) + self.baseOffset
 	self.moving = true
 	self.dirty = true
+	self.disheveled = false
+	self.maxDishevelmentTime = 15
+	self.timeOfDishevelment = self.maxDishevelmentTime
 end
 
 function Sprite:draw()
 	self.animations[self.direction]:draw(self.x, self.y, self.moving)
 	self.dirty = false
+	self.disheveled = false
+	self.timeOfDishevelment = self.maxDishevelmentTime
 end
 
 function Sprite:update()
+	if self.disheveled  then
+		self.timeOfDishevelment = self.timeOfDishevelment - 1
+	end
+	if self.timeOfDishevelment == 0 then
+		self.dirty = true
+	end
 	self.animations[self.direction]:update()
 	if self.animations[self.direction].dirty == true then
-		self.dirty = true
+		self.disheveled = true
 	end
 end
 
@@ -47,13 +58,13 @@ end
 
 function Sprite:setDirection( direction )
 	self.direction = direction
-	self.dirty = true
+	self.disheveled = true
 end
 
 function Sprite:setBaseOffest(offset)
 	self.baseOffset = offset
 	self.baseCenterY = ((self.height - self.baseOffset) / 2) + self.baseOffset
-	self.dirty = true
+	self.disheveled = true
 end
 
 function Sprite:getBaseOffset()

@@ -27,15 +27,7 @@ function GameScreen:reset()
 	love.graphics.setFont(GameScreen.font)
 end
 
--- function GameScreen:initObjects()
--- end
-
 function GameScreen:draw()
-	for i = 1, table.getn(self.objects) do
-		if self.objects[i].dirty == true then
-			self.dirty = true
-		end
-	end
 	if self.dirty then
 		self.sort(self.objects, function (a, b)
 				return a:getBaseCentreY() > b:getBaseCentreY()
@@ -65,6 +57,20 @@ end
 
 function GameScreen:update(dt)
 	self.timer = self.timer + dt
+	local disheveledCount = 0
+
+	for i = 1, table.getn(self.objects) do
+		if self.objects[i].dirty == true then
+			self.dirty = true
+		elseif self.objects[i].disheveled ~= nil and self.objects[i].disheveled then
+			disheveledCount = disheveledCount + 1
+		end
+	end
+
+	if disheveledCount > self.maxDisheveled then
+		self.dirty = true
+	end
+
 	for i = 1, table.getn(self.interactables) do
 		local a = self.objects[i]
 		if a == nil or (a.dying ~= nil and a.dying) == true then

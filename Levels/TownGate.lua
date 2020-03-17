@@ -1,7 +1,7 @@
 --TownGate
 
 GameScreen = require "GameScreen"
-Spider = require "Spider"
+Spider = require "NPCs/Spider"
 StaticObject = require "StaticObject"
 
 local TownGate = {}
@@ -13,6 +13,7 @@ function TownGate:initTownGate()
 	self.portals.green = "Levels/Marsh_1"
 	self.player.portals = self.portals
 	self.dirty = true
+	self.maxDisheveled = 2
 end
 
 function TownGate:reset()

@@ -16,18 +16,20 @@ function Player:init()
 	self.magic = 100
 	self.timer = 0
 	self.dirty = true
+	self.hurt = false
+	self.timeHurt = 0
 end
 
 function Player:draw()
-	self.body:draw()
-	self.dirty = false
-end
-
-function Player:update()
-	self.body:update()
-	if self.body.dirty == true then
-		self.dirty = true
+	if (self.hurt) then
+		love.graphics.setColor(255, 0, 0, 255)
+		love.graphics.rectangle( "fill", self:getX(), self:getY(), self:getWidth(), self:getHeight() )
+		love.graphics.setColor(255, 255, 255, 255)
+	else
+		self.body:draw()
 	end
+
+	self.dirty = false
 end
 
 function Player:canMove(direction)
@@ -97,8 +99,24 @@ function Player:setObjectMap( objectMap )
 	self.objectMap = objectMap
 end
 
+function Player:hit(damage)
+	if self.hurt == false then
+		self.magic = self.magic - damage
+		self.hurt = true
+	end
+end
+
 function Player:update(dt)
+	if self.hurt then
+		self.timeHurt = self.timeHurt + 1
+		if self.timeHurt > 1000 then
+			self.timeHurt = 0
+			self.hurt = false
+		end
+	end
+
 	self.body:update()
+
 	if love.keyboard.isDown('right') or love.keyboard.isDown('left') or love.keyboard.isDown('up') or love.keyboard.isDown('down') or
 			love.keyboard.isDown('w') or love.keyboard.isDown('a') or love.keyboard.isDown('s') or love.keyboard.isDown('d') then
 		self.body:setMoving(true)

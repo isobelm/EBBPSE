@@ -38,12 +38,29 @@ function NPC:eat(value)
 end
 
 function NPC:update()
+	if self.hostile then
+		-- local touchingPlayer = false
+		if self:pointInPlayer(self:getX(), self:getY()) or self:pointInPlayer(self:getX() + self:getWidth(), self:getY())
+				or self:pointInPlayer(self:getX(), self:getY() + self:getHeight())
+				or self:pointInPlayer(self:getX() + self:getWidth(), self:getY() + self:getHeight()) then
+			self.player:hit(self.damage)
+		end
+	end
 	if self.movementType == "auto" then
         self:move()
     elseif self.movementType == "random" then
         self:moveOnAuto()
 	end
 	Sprite.update(self)
+end
+
+function NPC:pointInPlayer(x,y)
+	if x > self.player:getX() and x < self.player:getX() + self.player:getWidth()
+			and y > self.player:getY() + self.player:getBaseOffset() and y < self.player:getY() + self.player:getHeight() then
+		return true
+	else
+		return false
+	end
 end
 
 function NPC:moveOnAuto()

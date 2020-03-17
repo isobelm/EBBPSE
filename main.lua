@@ -41,15 +41,6 @@ function love.load()
  
 end
 
-function testingInit()
-	player = Player.new()
-	player:setBodyType("SpiderQueen")
-	player:setX(188)
-	player:setY(100)
-	local screentype = require("Levels/Marsh_1")
-	currentScreen = screentype.new(player)
-end
-
 function love.draw()
     love.graphics.setCanvas(canvas)
 	love.graphics.setColor(1, 1, 1, 1)

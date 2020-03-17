@@ -1,7 +1,7 @@
 -- Marsh_1
 
 local GameScreen = require "GameScreen"
-local Spider = require "Spider"
+local Spider = require "NPCs/Spider"
 
 local Marsh_1 = {}
 
@@ -13,6 +13,7 @@ function Marsh_1:initMarsh_1()
 	self.portals.red = "Levels/TownGate"
 	self.portals.green = "Levels/Marsh_2"
 	self.player.portals = self.portals
+	self.maxDisheveled = table.getn(self.interactables)
 end
 
 function Marsh_1:newScreen(portal)
