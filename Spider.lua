@@ -16,12 +16,6 @@ function Spider:init(player, screen)
 	self.interactionOptionText = {"eat", "incorporate", "leave be"}
 end
 
-function Spider:eat() 
-	self.player.magic = self.player.magic + 25
-	self:die()
-	return "You have eaten the spider.\n\t+25 magic"
-end
-
 function Spider:incorporate() 
 	local explanation
 	self.player.magic = self.player.magic - 20
@@ -30,7 +24,7 @@ function Spider:incorporate()
 		if self.player:getBodyType() == "spider" then
 			explanation = explanation .. self.player:getBody():addSpider()
 		else
-			self.player:setBodyType("SpiderQueen")
+			self.player:setBodyType("SpiderBody")
 			explanation = explanation .. "New Body Acquired!"
 		end
 	else
@@ -43,7 +37,7 @@ end
 
 function Spider:interactionOptions(selected)
 	if selected == 1 then
-		return self:eat()
+		return self:eat(25)
 	elseif selected == 2 then
 		return self:incorporate()
 	else 

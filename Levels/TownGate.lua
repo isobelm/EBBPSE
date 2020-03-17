@@ -66,7 +66,7 @@ function TownGate:createSpider()
 	self.spider:setX(400)
 	self.spider:setY(192)
 	self.spider:setDirection("l")
-	self.spider:setMoving(true)
+	self.spider:setMovement("auto")
 	table.insert(self.objects, self.spider)
 	table.insert(self.interactables, self.spider)
 end

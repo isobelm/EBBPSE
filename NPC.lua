@@ -12,7 +12,8 @@ function NPC:init(player, screen, type)
     Sprite.init(self, type)
 	self.name = "NPC"
 	self:setAnimationSpeed(60)
-    self.moving = false
+	self.movementType = "none"
+	self:setMoving(self.movementType ~= "none")
     self.speed = 0
 	self.player = player
 	self.screen = screen
@@ -28,10 +29,16 @@ function NPC:die()
 	self.dirty = true
 end
 
+function NPC:eat(value) 
+	self.player.magic = self.player.magic + value
+	self:die()
+	return "You have eaten the " .. self.name .. ".\n\t+"..value.." magic"
+end
+
 function NPC:update()
-	if self.moving then
+	if self.movementType == "auto" then
         self:move()
-    elseif self.autopilot then
+    elseif self.movementType == "random" then
         self:moveOnAuto()
 	end
 	Sprite.update(self)
@@ -163,6 +170,11 @@ end
 
 function NPC:getDirection()
     return self.direction
+end
+
+function NPC:setMovement(type)
+	self.movementType = type
+	self:setMoving(self.movementType ~= "none")
 end
 
 function NPC:getInteraction()

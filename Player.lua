@@ -101,7 +101,7 @@ function Player:update(dt)
 	self.body:update()
 	if love.keyboard.isDown('right') or love.keyboard.isDown('left') or love.keyboard.isDown('up') or love.keyboard.isDown('down') or
 			love.keyboard.isDown('w') or love.keyboard.isDown('a') or love.keyboard.isDown('s') or love.keyboard.isDown('d') then
-		self.body.moving = true
+		self.body:setMoving(true)
 		if love.keyboard.isDown('right') or love.keyboard.isDown('d') then
 			local canMove = self:canMove("r")
 			if canMove == true then

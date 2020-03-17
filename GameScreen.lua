@@ -85,6 +85,12 @@ function GameScreen:update(dt)
 	end
 end
 
+function GameScreen:addStaticObject(path, x, y) 
+	local tmpObj = StaticObject.new(path)
+	tmpObj:setPos(x, y)
+	table.insert(self.objects, tmpObj)
+end
+
 function GameScreen:addPlayer(player)
 	self.player = player
 	self.player:setObjectMap(self.objectMap)

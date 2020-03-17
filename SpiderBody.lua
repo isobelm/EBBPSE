@@ -1,14 +1,14 @@
--- SpiderQueen
+-- SpiderBody
 local Body = require "Body"
 local Sprite = require "Sprite"
 
 
-local SpiderQueen = {}
+local SpiderBody = {}
 
-SpiderQueen.__index = SpiderQueen
+SpiderBody.__index = SpiderBody
 
 
-function SpiderQueen:initSpiderQueen()
+function SpiderBody:initSpiderBody()
 	self.spiderCount = 1
 	self.speed = 0.1
 	self.magicLossSpeed = 700
@@ -16,14 +16,15 @@ function SpiderQueen:initSpiderQueen()
 	self.type = "spider"
 end
 
-function SpiderQueen:addSpider()
+function SpiderBody:addSpider()
 	if self.spiderCount < self.maxSpiders then
 		self.speed = self.speed + 0.025
 		self.spiderCount = self.spiderCount + 1
 		
 		if self.spiderCount == self.maxSpiders then
 			self.magicLossSpeed = self.magicLossSpeed + 700
-			return "+0.025 speed\n\t+700 magic retention\n\tYour body has improved as much as it can by adding spiders."
+			return "+0.025 speed\n\t+700 magic retention\n\tCongratulations! You can pass as a spider now. "
+				.. "n\tYour body has improved as much as it can by adding spiders."
 		else
 			return "+0.025 speed\n\tspider count: " .. self.spiderCount
 		end
@@ -32,14 +33,14 @@ function SpiderQueen:addSpider()
 	end
 end
 
-function SpiderQueen.new()
- 	local self = setmetatable({}, SpiderQueen)
+function SpiderBody.new()
+ 	local self = setmetatable({}, SpiderBody)
  	self:init("Resources/Player/Spider_1")
- 	self:initSpiderQueen();
+ 	self:initSpiderBody();
 
  	return self
 end
 
-setmetatable(SpiderQueen,{__index = Body})
+setmetatable(SpiderBody,{__index = Body})
 
-return SpiderQueen
+return SpiderBody
