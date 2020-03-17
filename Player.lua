@@ -18,13 +18,15 @@ function Player:init()
 	self.dirty = true
 	self.hurt = false
 	self.timeHurt = 0
+	self.maxTimeHurt = 1000
 end
 
 function Player:draw()
 	if (self.hurt) then
-		love.graphics.setColor(255, 0, 0, 255)
-		love.graphics.rectangle( "fill", self:getX(), self:getY(), self:getWidth(), self:getHeight() )
-		love.graphics.setColor(255, 255, 255, 255)
+		local colour = (self.timeHurt + self.maxTimeHurt * 0.2) / (self.maxTimeHurt + self.maxTimeHurt * 0.2)
+		love.graphics.setColor(1, colour, colour, 1)
+		self.body:draw()
+		love.graphics.setColor(255, 255, 255, 1)
 	else
 		self.body:draw()
 	end
@@ -103,13 +105,14 @@ function Player:hit(damage)
 	if self.hurt == false then
 		self.magic = self.magic - damage
 		self.hurt = true
+		self.disheveled = true
 	end
 end
 
 function Player:update(dt)
 	if self.hurt then
 		self.timeHurt = self.timeHurt + 1
-		if self.timeHurt > 1000 then
+		if self.timeHurt > self.maxTimeHurt then
 			self.timeHurt = 0
 			self.hurt = false
 		end

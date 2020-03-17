@@ -8,6 +8,8 @@ GameScreen.__index = GameScreen
 
 GameScreen.font = love.graphics.newImageFont('Resources/Fonts/numberFont.png', " 1234567890", 1)
 GameScreen.magicSymbol = love.graphics.newImage('Resources/Images/magicSymbol.png')
+GameScreen.lowMagicSymbol = love.graphics.newImage('Resources/Images/lowMagicSymbol.png')
+GameScreen.veryLowMagicSymbol = love.graphics.newImage('Resources/Images/veryLowMagicSymbol.png')
 
 function GameScreen:init(folder, player)
 	self.portals ={}
@@ -43,8 +45,21 @@ function GameScreen:draw()
 		end
 
 
-		love.graphics.draw(GameScreen.magicSymbol, 2, 2)
-		love.graphics.printf("" .. self.player.magic, 10, 4, 400, 'left')
+		if player.magic < 10 then
+			love.graphics.draw(GameScreen.veryLowMagicSymbol, 4, 4)
+			love.graphics.setColor(1, 116/255, 116/255, 1)
+			love.graphics.printf("" .. self.player.magic, 14, 6, 400, 'left')
+			love.graphics.setColor(1, 1, 1, 1)
+		elseif player.magic < 25 then
+			love.graphics.draw(GameScreen.lowMagicSymbol, 4, 4)
+			love.graphics.setColor(1, 243/255, 137/255, 1)
+			love.graphics.printf("" .. self.player.magic, 14, 6, 400, 'left')
+			love.graphics.setColor(1, 1, 1, 1)
+		else
+			love.graphics.draw(GameScreen.magicSymbol, 4, 4)
+			love.graphics.printf("" .. self.player.magic, 14, 6, 400, 'left')
+		end
+
 		self.lastTimeBetweenFrames = self.timeBetweenFrames;
 		self.timeBetweenFrames = 0
 		love.graphics.printf("" .. self.lastTimeBetweenFrames, 300, 4, 400, 'left')

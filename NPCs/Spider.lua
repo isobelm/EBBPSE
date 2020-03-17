@@ -14,7 +14,7 @@ function Spider:init(player, screen)
 	self.interactionImage = "Resources/Images/spider_big_no_line.png"
 	self:setAnimationSpeed(60)
 	self.interactionOptionText = {"eat", "incorporate", "leave be"}
-	self.damage = 40
+	self.damage = 20
 	self.hostile = true
 end
 
