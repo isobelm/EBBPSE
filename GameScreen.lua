@@ -91,6 +91,40 @@ function GameScreen:addStaticObject(path, x, y)
 	table.insert(self.objects, tmpObj)
 end
 
+function GameScreen:placeRandomly(object)
+	local canPlaceObject = false
+	local x = 0
+	local y = 0
+	while (canPlaceObject == false) do
+		x = math.modf(math.random(0, 399 - tmpObj:getWidth()))
+		y = math.modf((math.random(0 + tmpObj:getBaseOffset(), 301 - tmpObj:getHeight())))
+		canPlaceObject = self:canPlace(tmpObj, x, y)
+	end
+	
+	tmpObj:setX(x)
+	tmpObj:setY(y)
+end
+
+function GameScreen:canPlace(object, x, y)
+	for i=0, object:getWidth() do
+		local r1, g1, b1, a1 = self.objectMap:getPixel(x + i, y)
+		local r2, g2, b2, a2 = self.objectMap:getPixel(x + i, y + object:getHeight())
+		if (r1 == 0 and g1 == 0 and b1 == 0) or (r2 == 0 and g2 == 0 and b2 == 0) then
+			return false
+		end
+	end
+
+	for j=0, object:getHeight() do
+		local r1, g1, b1, a1 = self.objectMap:getPixel(x, y + j)
+		local r2, g2, b2, a2 = self.objectMap:getPixel(x + object:getWidth(), y + j)
+		if (r1 == 0 and g1 == 0 and b1 == 0) or (r2 == 0 and g2 == 0 and b2 == 0) then
+			return false
+		end
+	end
+
+	return true
+end
+
 function GameScreen:addPlayer(player)
 	self.player = player
 	self.player:setObjectMap(self.objectMap)

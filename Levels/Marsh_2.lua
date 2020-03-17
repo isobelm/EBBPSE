@@ -2,6 +2,7 @@
 
 local GameScreen = require "GameScreen"
 local Spider = require "Spider"
+local BigSpider = require "BigSpider"
 
 local Marsh_2 = {}
 
@@ -30,15 +31,23 @@ function Marsh_2:initObjects()
 	self:addStaticObject('Resources/Sprites/StaticObjects/bush.png', 364, 104)
 
 
-	-- for i = 1, math.random(5) do
-	-- 	tmpObj = Spider.new(self.player, self.name)
-	-- 	tmpObj:setMovement("random")
-	-- 	tmpObj:setX(math.modf(math.random(0, 399 - tmpObj:getWidth())))
-	-- 	tmpObj:setY(math.modf((math.random(0 + tmpObj:getBaseOffset(), 301 - tmpObj:getHeight()))))
-	-- 	tmpObj.objectMap = self.objectMap
-	-- 	table.insert(self.objects, tmpObj)
-	-- 	table.insert(self.interactables, tmpObj)
-	-- end
+	for i = 1, math.random(2) do
+		tmpObj = Spider.new(self.player, self.name)
+		tmpObj:setMovement("random")
+		self:placeRandomly(tmpObj)
+		tmpObj.objectMap = self.objectMap
+		table.insert(self.objects, tmpObj)
+		table.insert(self.interactables, tmpObj)
+	end
+
+	for i = 1, math.random(5) do
+		tmpObj = BigSpider.new(self.player, self.name)
+		tmpObj:setMovement("random")
+		self:placeRandomly(tmpObj)
+		tmpObj.objectMap = self.objectMap
+		table.insert(self.objects, tmpObj)
+		table.insert(self.interactables, tmpObj)
+	end
 end
 
 function Marsh_2.new(player)

@@ -30,6 +30,7 @@ function Marsh_1:initObjects()
 	filePath = 'Resources/Sprites/StaticObjects/tree_left.png'
 	self:addStaticObject(filePath, 219, 74)
 	self:addStaticObject(filePath, 330, 47)
+	filePath = 'Resources/Sprites/StaticObjects/tree_right.png'
 	self:addStaticObject(filePath, 234, 190)
 	filePath = 'Resources/Sprites/StaticObjects/bush.png'
 	self:addStaticObject(filePath, 26, 39)
@@ -42,8 +43,7 @@ function Marsh_1:initObjects()
 	for i = 1, math.random(5) do
 		tmpObj = Spider.new(self.player, self.name)
 		tmpObj:setMovement("random")
-		tmpObj:setX(math.modf(math.random(0, 399 - tmpObj:getWidth())))
-		tmpObj:setY(math.modf((math.random(0 + tmpObj:getBaseOffset(), 301 - tmpObj:getHeight()))))
+		self:placeRandomly(tmpObj)
 		tmpObj.objectMap = self.objectMap
 		table.insert(self.objects, tmpObj)
 		table.insert(self.interactables, tmpObj)

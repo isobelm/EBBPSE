@@ -1,6 +1,6 @@
 --Player
 -- local Animation = require "Animation"
-local Head = require "Head"
+local Head = require "Bodies/Head"
 
 local Player = {}
 

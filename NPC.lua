@@ -19,9 +19,11 @@ function NPC:init(player, screen, type)
 	self.screen = screen
     self.dying = false
     self.autopilot = true
-    self.maxStep = 100
-    self.minStep = 50
-    self.currentStep = 0
+    self.maxStep = 40
+    self.minStep = 100
+	self.currentStep = 0
+	self.hostile = false
+	self.damage = 0
 end
 
 function NPC:die() 
@@ -55,7 +57,8 @@ function NPC:moveOnAuto()
         self.currentStep = math.random(self.minStep, self.maxStep)
     else
         if self:canMove(self.direction) then
-            self:move()
+			self:move()
+			self.currentStep = self.currentStep - self.speed
         else
             self.currentStep = 0
 		end

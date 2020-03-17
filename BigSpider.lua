@@ -14,6 +14,8 @@ function BigSpider:init(player, screen)
 	self.interactionImage = "Resources/Images/spider_big_no_line.png"
 	self:setAnimationSpeed(60)
 	self.interactionOptionText = {"eat", "incorporate", "leave be"}
+	self.damage = 40
+	self.hostile = true
 end
 
 function BigSpider:incorporate() 
@@ -24,7 +26,7 @@ function BigSpider:incorporate()
 		if self.player:getBodyType() == "bigSpider" then
 			explanation = explanation .. self.player:getBody():addSpider()
 		else
-			self.player:setBodyType("BidSpiderBody")
+			self.player:setBodyType("Bodies/BigSpiderBody")
 			explanation = explanation .. "New Body Acquired!"
 		end
 	else
