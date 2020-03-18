@@ -16,6 +16,7 @@ function BigSpider:init(player, screen)
 	self.interactionOptionText = {"eat", "incorporate", "leave be"}
 	self.damage = 40
 	self.hostile = true
+	self:setMovement("hostile")
 end
 
 function BigSpider:incorporate() 

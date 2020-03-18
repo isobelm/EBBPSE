@@ -35,7 +35,6 @@ function Marsh_2:initObjects()
 
 	for i = 1, math.random(2) do
 		tmpObj = Spider.new(self.player, self.name)
-		tmpObj:setMovement("random")
 		self:placeRandomly(tmpObj)
 		tmpObj.objectMap = self.objectMap
 		table.insert(self.objects, tmpObj)
@@ -44,7 +43,6 @@ function Marsh_2:initObjects()
 
 	for i = 1, math.random(5) do
 		tmpObj = BigSpider.new(self.player, self.name)
-		tmpObj:setMovement("random")
 		self:placeRandomly(tmpObj)
 		tmpObj.objectMap = self.objectMap
 		table.insert(self.objects, tmpObj)

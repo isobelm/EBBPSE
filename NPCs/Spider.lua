@@ -16,6 +16,7 @@ function Spider:init(player, screen)
 	self.interactionOptionText = {"eat", "incorporate", "leave be"}
 	self.damage = 20
 	self.hostile = true
+	self:setMovement("random")
 end
 
 function Spider:incorporate() 

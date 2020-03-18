@@ -49,7 +49,9 @@ function NPC:update()
 	if self.movementType == "auto" then
         self:move()
     elseif self.movementType == "random" then
-        self:moveOnAuto()
+		self:moveOnAuto()
+	elseif self.movementType == "hostile" then
+		self:moveTowardPlayer()
 	end
 	Sprite.update(self)
 end
@@ -60,6 +62,31 @@ function NPC:pointInPlayer(x,y)
 		return true
 	else
 		return false
+	end
+end
+
+function NPC:moveTowardPlayer(x,y)
+	local xDif = self:getBaseCentreX() - self.player:getBaseCentreX()
+	local yDif = self:getBaseCentreY() - self.player:getBaseCentreY()
+	local direction = ""
+
+	if math.abs(xDif) > math.abs(yDif) then
+		if xDif < 0 then
+			direction = "r"
+		else
+			direction = "l"
+		end
+	else
+		if yDif < 0 then
+			direction = "d"
+		else
+			direction = "u"
+		end
+	end
+	self:setDirection(direction)
+
+	if (self:canMove(direction)) then
+		self:move()
 	end
 end
 
