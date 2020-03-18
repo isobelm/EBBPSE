@@ -19,6 +19,17 @@ function BigSpider:init(player, screen)
 	self:setMovement("hostile")
 end
 
+function BigSpider:update()
+	NPC.update(self)
+	if (self.player.body.type == "bigSpider" ) or
+			(self.player.body.type == "spider" and self.player.body.spiderCount >= 5) then
+		self:setMovement("random")
+	else
+		self:setMovement("hostile")
+	end
+end
+
+
 function BigSpider:incorporate() 
 	local explanation
 	self.player.magic = self.player.magic - 40
