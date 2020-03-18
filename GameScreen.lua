@@ -37,8 +37,8 @@ function GameScreen:draw()
 		)
 		love.graphics.scale( 2, 2 )
 
-			love.graphics.draw(self.background, 0, 0)
-			self.dirty = false
+		love.graphics.draw(self.background, 0, 0)
+		self.dirty = false
 
 		for i = 1, table.getn(self.objects) do
 			self.objects[i]:draw()
@@ -87,8 +87,8 @@ function GameScreen:update(dt)
 	end
 
 	for i = 1, table.getn(self.interactables) do
-		local a = self.objects[i]
-		if a == nil or (a.dying ~= nil and a.dying) == true then
+		local a = self.interactables[i]
+		if a == nil or (a.dying ~= nil and a.dying == true) then
 			table.remove(self.interactables, i)
 			i = i - 1
 		end
